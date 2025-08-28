@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="Move" load_steps=2 format=3 uid="uid://cqteclbuh3oik"]
+
+[ext_resource type="Script" uid="uid://b8dkdc6rhh0sl" path="res://moves/move.gd" id="1_wspwd"]
+
+[resource]
+script = ExtResource("1_wspwd")
+name = "Kick"
+startup = 12
+active = 6
+recovery = 12
+stun = 10
+animation_name = &"punch"
+damage = 10
+hitbox_data = Rect2(40, -32.5, 40, 12.5)
+metadata/_custom_type_script = "uid://b8dkdc6rhh0sl"
