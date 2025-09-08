@@ -123,7 +123,7 @@ func _get_move_key() -> String:
 		return "neutral" + ground_suffix
 
 func _update_facing() -> void:
-	if stun_duration > 0:
+	if stun_duration > 0 or state_machine.current_state.name.to_lower() == "action":
 		return
 	var dir = get_input_direction()
 	if abs(dir.x) > 0.1:
