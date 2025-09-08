@@ -1,0 +1,38 @@
+[gd_scene load_steps=5 format=3 uid="uid://bp0osvaridums"]
+
+[ext_resource type="Texture2D" uid="uid://cfrstp1huv66c" path="res://assets/art/stage.png" id="1_78alf"]
+[ext_resource type="PackedScene" uid="uid://cahwii8wr1od4" path="res://scenes/actors/player.tscn" id="2_u63yl"]
+[ext_resource type="PackedScene" uid="uid://dnx6lwglqejqb" path="res://scenes/actors/dummy.tscn" id="3_8kaqf"]
+
+[sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_78alf"]
+
+[node name="Stage" type="Node2D"]
+
+[node name="BG" type="Sprite2D" parent="."]
+texture = ExtResource("1_78alf")
+region_enabled = true
+region_rect = Rect2(72, 208, 768, 176)
+
+[node name="StaticBody2D" type="StaticBody2D" parent="."]
+position = Vector2(0, 106)
+
+[node name="Ground" type="Sprite2D" parent="StaticBody2D"]
+position = Vector2(0, 16)
+texture = ExtResource("1_78alf")
+region_enabled = true
+region_rect = Rect2(8, 392, 896, 72)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
+shape = SubResource("WorldBoundaryShape2D_78alf")
+
+[node name="Dummy" parent="." instance=ExtResource("3_8kaqf")]
+position = Vector2(-107, 69)
+rotation = 3.14159
+scale = Vector2(4, -4)
+
+[node name="Fighter" parent="." instance=ExtResource("2_u63yl")]
+position = Vector2(158, 49)
+
+[node name="Camera2D" type="Camera2D" parent="."]
+position = Vector2(0, 32)
+zoom = Vector2(1.5, 1.5)
