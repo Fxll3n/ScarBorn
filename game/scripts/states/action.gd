@@ -38,7 +38,7 @@ func _update_phase():
 				fighter.hitbox.disable()
 		Phase.RECOVERY:
 			if fighter.action_frame >= move.startup + move.active + move.recovery:
-				fighter.state_machine.change_state("idle")
+				transition_to("idle")
 
 func _setup_hitbox():
 	var move = fighter.current_move

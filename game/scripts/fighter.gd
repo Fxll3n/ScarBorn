@@ -89,7 +89,6 @@ func _handle_input() -> void:
 		_try_execute_move(2)
 
 func _try_execute_move(item_slot: int) -> void:
-	print("Tried to use item in slot %s." % item_slot)
 	if inventory.is_empty():
 		push_warning("Player holds no items!")
 		return
@@ -99,10 +98,8 @@ func _try_execute_move(item_slot: int) -> void:
 	var item: Item = inventory.get(item_slot)
 	if not item:
 		return
-	print(item.name)
 		
 	var move_key = _get_move_key()
-	print(move_key)
 	var move = item.variants.get(move_key)
 	if move:
 		execute_move(move)

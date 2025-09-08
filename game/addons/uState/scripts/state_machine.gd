@@ -12,7 +12,8 @@ func _ready() -> void:
 	for child in get_children():
 		if child is uState:
 			states[child.name.to_lower()] = child
-			child.transition.connect(_on_transition)
+			if not child.transition.is_connected(_on_transition):
+				child.transition.connect(_on_transition)
 	
 	if initial_state:
 		initial_state.enter.call_deferred() 

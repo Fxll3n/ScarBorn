@@ -13,7 +13,6 @@ func _ready() -> void:
 	
 
 func _on_hit(damage: int, _stun: int) -> void:
-	print("Took %s damage and %s stun frames." % [damage, _stun])
 	sprite.play("hit_%s" % randi_range(1,3))
 
 func _on_anim_finish() -> void:
