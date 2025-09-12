@@ -27,10 +27,10 @@ Adding a new command is quite simple:
 
 ```gdscript
 func _ready() -> void:
-    LimboConsole.register_command(multiply)
+	LimboConsole.register_command(multiply)
 
 func multiply(a: float, b: float) -> void:
-    LimboConsole.info("a * b: " + str(a * b))
+	LimboConsole.info("a * b: " + str(a * b))
 ```
 
 > ℹ For C# support, see the next section.
@@ -56,14 +56,14 @@ Autocompletion works for both command names and history. It can also be implemen
 ```gdscript
 LimboConsole.register_command(teleport, "teleport", "teleport to site on this level")
 LimboConsole.add_argument_autocomplete_source("teleport", 1,
-        func(): return ["entrance", "caves", "boss"]
+		func(): return ["entrance", "caves", "boss"]
 )
 ```
 For a dynamically generated list of autocomplete values, the code could look like this:
 ```gdscript
 LimboConsole.add_argument_autocomplete_source("teleport", 1,
-        func(): return get_tree().get_nodes_in_group("teleportation_site").map(
-                func(node): return node.name)
+		func(): return get_tree().get_nodes_in_group("teleportation_site").map(
+				func(node): return node.name)
 )
 ```
 

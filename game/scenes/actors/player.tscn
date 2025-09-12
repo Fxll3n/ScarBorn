@@ -1,17 +1,17 @@
 [gd_scene load_steps=40 format=3 uid="uid://cahwii8wr1od4"]
 
-[ext_resource type="Script" uid="uid://r1faf1bbc6i2" path="res://scripts/fighter.gd" id="1_7wueq"]
+[ext_resource type="Script" uid="uid://r1faf1bbc6i2" path="res://scripts/fighter/fighter.gd" id="1_7wueq"]
 [ext_resource type="Texture2D" uid="uid://f8w7jgu2su2p" path="res://assets/art/Ryu.png" id="2_8y416"]
-[ext_resource type="Script" uid="uid://cyak1n4oht43k" path="res://scripts/state_label.gd" id="2_c4rn8"]
-[ext_resource type="Script" uid="uid://dlyo8ra4hychi" path="res://scripts/hitbox.gd" id="2_ru62r"]
-[ext_resource type="Script" uid="uid://d3pcq43u0utv4" path="res://scripts/hurtbox.gd" id="3_ktjr4"]
+[ext_resource type="Script" uid="uid://cyak1n4oht43k" path="res://scripts/ui/state_label.gd" id="2_c4rn8"]
+[ext_resource type="Script" uid="uid://dlyo8ra4hychi" path="res://scripts/fighter/hitbox.gd" id="2_ru62r"]
+[ext_resource type="Script" uid="uid://d3pcq43u0utv4" path="res://scripts/fighter/hurtbox.gd" id="3_ktjr4"]
 [ext_resource type="Script" uid="uid://2espvt53y086" path="res://addons/uState/scripts/state_machine.gd" id="5_8y416"]
-[ext_resource type="Script" uid="uid://es10xfhgsdcy" path="res://scripts/states/idle.gd" id="6_7860b"]
-[ext_resource type="Script" uid="uid://mwj0wy8qp7jn" path="res://scripts/states/walk.gd" id="7_wl55n"]
-[ext_resource type="Script" uid="uid://dkhthe16lrdpg" path="res://scripts/states/jump.gd" id="7_xx81n"]
-[ext_resource type="Script" uid="uid://bxejda5k5vojg" path="res://scripts/states/action.gd" id="8_0w4p8"]
-[ext_resource type="Script" uid="uid://bxyflkpkocsbv" path="res://scripts/states/fall.gd" id="9_kggx2"]
-[ext_resource type="Script" uid="uid://c5arwk14jsc3h" path="res://scripts/states/stun.gd" id="11_kggx2"]
+[ext_resource type="Script" uid="uid://es10xfhgsdcy" path="res://scripts/fighter/states/idle.gd" id="6_7860b"]
+[ext_resource type="Script" uid="uid://mwj0wy8qp7jn" path="res://scripts/fighter/states/walk.gd" id="7_wl55n"]
+[ext_resource type="Script" uid="uid://dkhthe16lrdpg" path="res://scripts/fighter/states/jump.gd" id="7_xx81n"]
+[ext_resource type="Script" uid="uid://bxejda5k5vojg" path="res://scripts/fighter/states/action.gd" id="8_0w4p8"]
+[ext_resource type="Script" uid="uid://bxyflkpkocsbv" path="res://scripts/fighter/states/fall.gd" id="9_kggx2"]
+[ext_resource type="Script" uid="uid://c5arwk14jsc3h" path="res://scripts/fighter/states/stun.gd" id="11_kggx2"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_t62v4"]
 atlas = ExtResource("2_8y416")
@@ -225,7 +225,8 @@ height = 92.0
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ktjr4"]
 size = Vector2(37, 96)
 
-[node name="Fighter" type="CharacterBody2D"]
+[node name="Fighter" type="CharacterBody2D" groups=["players"]]
+z_index = 10
 script = ExtResource("1_7wueq")
 metadata/_custom_type_script = "uid://r1faf1bbc6i2"
 

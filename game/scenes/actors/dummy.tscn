@@ -1,9 +1,9 @@
 [gd_scene load_steps=27 format=3 uid="uid://dnx6lwglqejqb"]
 
-[ext_resource type="Script" uid="uid://d3pcq43u0utv4" path="res://scripts/hurtbox.gd" id="1_h8oti"]
-[ext_resource type="Script" uid="uid://bj4xmno3y0pmr" path="res://scripts/dummy.gd" id="1_j00ps"]
+[ext_resource type="Script" uid="uid://d3pcq43u0utv4" path="res://scripts/fighter/hurtbox.gd" id="1_h8oti"]
+[ext_resource type="Script" uid="uid://bj4xmno3y0pmr" path="res://scripts/fighter/dummy.gd" id="1_j00ps"]
 [ext_resource type="Texture2D" uid="uid://dlfhdyyrffj0v" path="res://assets/art/Training Dummy Sprite Sheet.png" id="1_nlesk"]
-[ext_resource type="Script" uid="uid://dlyo8ra4hychi" path="res://scripts/hitbox.gd" id="4_8enio"]
+[ext_resource type="Script" uid="uid://dlyo8ra4hychi" path="res://scripts/fighter/hitbox.gd" id="4_8enio"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_j00ps"]
 atlas = ExtResource("1_nlesk")

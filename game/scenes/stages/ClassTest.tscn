@@ -1,0 +1,112 @@
+[gd_scene load_steps=8 format=3 uid="uid://y1ojdv8y73lt"]
+
+[ext_resource type="Script" uid="uid://cfay725qjbvcb" path="res://scripts/stage.gd" id="1_2y27m"]
+[ext_resource type="Texture2D" uid="uid://cfrstp1huv66c" path="res://assets/art/stage.png" id="2_5iitq"]
+[ext_resource type="Script" uid="uid://bd046eokvcnu2" path="res://addons/phantom_camera/scripts/phantom_camera_host/phantom_camera_host.gd" id="4_0ya42"]
+[ext_resource type="Script" uid="uid://bhexx6mj1xv3q" path="res://addons/phantom_camera/scripts/phantom_camera/phantom_camera_2d.gd" id="5_ksh3t"]
+[ext_resource type="Script" uid="uid://8umksf8e80fw" path="res://addons/phantom_camera/scripts/resources/tween_resource.gd" id="6_6ri0u"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_npb4l"]
+size = Vector2(1538, 46)
+
+[sub_resource type="Resource" id="Resource_lvqys"]
+script = ExtResource("6_6ri0u")
+duration = 1.0
+transition = 0
+ease = 2
+
+[node name="Stage" type="Node2D"]
+script = ExtResource("1_2y27m")
+metadata/_custom_type_script = "uid://cfay725qjbvcb"
+
+[node name="FighterCards" type="CanvasLayer" parent="."]
+follow_viewport_scale = 2.0
+
+[node name="Control" type="Control" parent="FighterCards"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Cards" type="HBoxContainer" parent="FighterCards/Control"]
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_constants/separation = 100
+
+[node name="Fighters" type="Node" parent="."]
+
+[node name="Environment" type="Node" parent="."]
+
+[node name="Art" type="Node2D" parent="Environment"]
+
+[node name="BG" type="Sprite2D" parent="Environment/Art"]
+position = Vector2(-239, -244)
+scale = Vector2(6, 6)
+texture = ExtResource("2_5iitq")
+region_enabled = true
+region_rect = Rect2(72, 208, 768, 176)
+
+[node name="Ground" type="Sprite2D" parent="Environment/Art"]
+position = Vector2(0, 100)
+scale = Vector2(2, 2)
+texture = ExtResource("2_5iitq")
+region_enabled = true
+region_rect = Rect2(8, 392, 896, 72)
+
+[node name="Collisions" type="StaticBody2D" parent="Environment"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Environment/Collisions"]
+position = Vector2(2, 110)
+shape = SubResource("RectangleShape2D_npb4l")
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="Environment/Collisions"]
+position = Vector2(-790, 30)
+rotation = 1.5708
+shape = SubResource("RectangleShape2D_npb4l")
+
+[node name="CollisionShape2D3" type="CollisionShape2D" parent="Environment/Collisions"]
+position = Vector2(794, 30)
+rotation = 1.5708
+shape = SubResource("RectangleShape2D_npb4l")
+
+[node name="Camera2D" type="Camera2D" parent="."]
+position = Vector2(2, 28)
+zoom = Vector2(2, 2)
+limit_left = -767
+limit_top = -304
+limit_right = 767
+limit_bottom = 283
+editor_draw_limits = true
+
+[node name="PhantomCameraHost" type="Node" parent="Camera2D"]
+process_priority = 300
+process_physics_priority = 300
+script = ExtResource("4_0ya42")
+metadata/_custom_type_script = "uid://bd046eokvcnu2"
+
+[node name="PhantomCamera2D" type="Node2D" parent="." node_paths=PackedStringArray("follow_targets")]
+top_level = true
+position = Vector2(1.99998, 28)
+script = ExtResource("5_ksh3t")
+follow_mode = 3
+follow_targets = [null]
+zoom = Vector2(2, 2)
+snap_to_pixel = true
+tween_resource = SubResource("Resource_lvqys")
+follow_damping = true
+auto_zoom = true
+auto_zoom_min = 0.2
+auto_zoom_max = 1.0
+draw_limits = true
+limit_left = -767
+limit_top = -304
+limit_right = 767
+limit_bottom = 283
+metadata/_custom_type_script = "uid://bhexx6mj1xv3q"

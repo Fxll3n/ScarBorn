@@ -1,11 +1,11 @@
 [gd_resource type="Resource" script_class="Item" load_steps=5 format=3 uid="uid://bpl0vsxpxmtya"]
 
-[ext_resource type="Script" uid="uid://ysdjpttdvhq5" path="res://scripts/item.gd" id="1_765le"]
-[ext_resource type="Texture2D" uid="uid://bgdvn34y3ic7q" path="res://icon.svg" id="1_tdh0g"]
-[ext_resource type="Script" uid="uid://bj5d01jb3amg" path="res://scripts/MoveData.gd" id="2_tdh0g"]
+[ext_resource type="Texture2D" uid="uid://cggvnujpj5a1h" path="res://assets/art/BoxingGlove.png" id="1_tdh0g"]
+[ext_resource type="Script" uid="uid://ysdjpttdvhq5" path="res://scripts/resources/item.gd" id="2_qrkaw"]
+[ext_resource type="Script" uid="uid://bj5d01jb3amg" path="res://scripts/resources/MoveData.gd" id="3_hnljn"]
 
 [sub_resource type="Resource" id="Resource_tdh0g"]
-script = ExtResource("2_tdh0g")
+script = ExtResource("3_hnljn")
 animation_name = &"punch"
 startup = 12
 active = 9
@@ -13,17 +13,18 @@ recovery = 12
 stun = 11
 damage = 10
 hitbox_data = Rect2(-45, -26, 100, 30)
+knockback_direction = Vector2(0, 0)
 metadata/_custom_type_script = "uid://bj5d01jb3amg"
 
 [resource]
-script = ExtResource("1_765le")
+script = ExtResource("2_qrkaw")
 name = &"Boxing Gloves"
 icon = ExtResource("1_tdh0g")
 description = "...Regular boxing gloves...
 ...A little worn out if anything..."
 buy_price = 10
 sell_price = 7
-variants = Dictionary[String, ExtResource("2_tdh0g")]({
+variants = Dictionary[String, ExtResource("3_hnljn")]({
 "neutral_ground": SubResource("Resource_tdh0g")
 })
 metadata/_custom_type_script = "uid://ysdjpttdvhq5"

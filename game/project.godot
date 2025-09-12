@@ -11,22 +11,27 @@ config_version=5
 [application]
 
 config/name="ScarBorn"
-run/main_scene="uid://bp0osvaridums"
+run/main_scene="uid://br7baqjad1uqs"
 config/features=PackedStringArray("4.4", "GL Compatibility")
 run/max_fps=60
-config/icon="res://icon.svg"
+config/icon="uid://c1tqddh4vim67"
+scenes/loading_scene_path="res://addons/yet_another_scene_manager/Scenes/Loading.tscn"
+scenes/error_scene_path="res://addons/yet_another_scene_manager/Scenes/Error.tscn"
 
 [autoload]
 
 MultiplayerInput="*res://addons/multiplayer_input/multiplayer_input.gd"
 LimboConsole="*res://addons/limbo_console/limbo_console.gd"
 Utilities="*res://scripts/managers/UTILITIES.gd"
+PhantomCameraManager="*res://addons/phantom_camera/scripts/managers/phantom_camera_manager.gd"
+SceneManager="*res://addons/scene_manager/scene_manager.tscn"
+Scenes="*res://addons/scene_manager/scenes.gd"
 
 [display]
 
 window/size/viewport_width=640
 window/size/viewport_height=360
-window/size/mode=2
+window/size/mode=3
 window/stretch/mode="canvas_items"
 window/stretch/aspect="expand"
 window/stretch/scale_mode="integer"
@@ -34,11 +39,11 @@ window/vsync/vsync_mode=0
 
 [editor_plugins]
 
-enabled=PackedStringArray("res://addons/godot_super-wakatime/plugin.cfg", "res://addons/limbo_console/plugin.cfg", "res://addons/multiplayer_input/plugin.cfg", "res://addons/uState/plugin.cfg")
+enabled=PackedStringArray("res://addons/godot_super-wakatime/plugin.cfg", "res://addons/limbo_console/plugin.cfg", "res://addons/multiplayer_input/plugin.cfg", "res://addons/phantom_camera/plugin.cfg", "res://addons/scene_manager/plugin.cfg", "res://addons/script-ide/plugin.cfg", "res://addons/uState/plugin.cfg")
 
 [global_group]
 
-Player="Group specifically for players"
+players=""
 
 [input]
 
