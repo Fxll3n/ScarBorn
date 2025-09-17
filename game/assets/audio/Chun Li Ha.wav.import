@@ -1,0 +1,24 @@
+[remap]
+
+importer="wav"
+type="AudioStreamWAV"
+uid="uid://dpalxg23i8p6b"
+path="res://.godot/imported/Chun Li Ha.wav-50e5aa177f81ed27ed789afc6213081f.sample"
+
+[deps]
+
+source_file="res://assets/audio/Chun Li Ha.wav"
+dest_files=["res://.godot/imported/Chun Li Ha.wav-50e5aa177f81ed27ed789afc6213081f.sample"]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=2

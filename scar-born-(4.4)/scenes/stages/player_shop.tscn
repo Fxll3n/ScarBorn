@@ -1,0 +1,77 @@
+[gd_scene load_steps=3 format=3 uid="uid://bpavaxq77cbec"]
+
+[ext_resource type="Script" uid="uid://lvb3locp01ch" path="res://scripts/player_shop.gd" id="1_i1bua"]
+[ext_resource type="PackedScene" uid="uid://cl10ajuxf5cj8" path="res://scenes/actors/shop_item.tscn" id="2_555w0"]
+
+[node name="PlayerShop" type="Control"]
+custom_minimum_size = Vector2(300, 250)
+layout_mode = 3
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -150.0
+offset_top = -250.0
+offset_right = 150.0
+grow_horizontal = 2
+grow_vertical = 0
+script = ExtResource("1_i1bua")
+
+[node name="PanelContainer" type="PanelContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="PanelContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
+
+[node name="VBoxContainer" type="VBoxContainer" parent="PanelContainer/MarginContainer"]
+layout_mode = 2
+alignment = 1
+
+[node name="Continue" type="Button" parent="PanelContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 0
+text = "Next Round"
+
+[node name="HSeparator2" type="HSeparator" parent="PanelContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="Label" type="RichTextLabel" parent="PanelContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 0
+bbcode_enabled = true
+text = "[wave amp=15.0 freq=2.5.0 connected=0][color=gold]999 G"
+fit_content = true
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="HSeparator" type="HSeparator" parent="PanelContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="Items" type="HBoxContainer" parent="PanelContainer/MarginContainer/VBoxContainer"]
+clip_contents = true
+layout_mode = 2
+size_flags_vertical = 3
+alignment = 1
+
+[node name="ShopItem" parent="PanelContainer/MarginContainer/VBoxContainer/Items" instance=ExtResource("2_555w0")]
+layout_mode = 2
+
+[node name="ShopItem2" parent="PanelContainer/MarginContainer/VBoxContainer/Items" instance=ExtResource("2_555w0")]
+layout_mode = 2
+
+[node name="ShopItem3" parent="PanelContainer/MarginContainer/VBoxContainer/Items" instance=ExtResource("2_555w0")]
+layout_mode = 2
+
+[connection signal="pressed" from="PanelContainer/MarginContainer/VBoxContainer/Continue" to="." method="_on_button_pressed"]

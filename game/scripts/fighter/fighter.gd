@@ -3,24 +3,33 @@ extends CharacterBody2D
 
 signal died
 signal health_changed(current: int, maximum: int)
-signal used_item(item: Item, move_cooldown: int)
+signal item_added(item: Item, slot: int)
+signal used_item(slot: int, move_cooldown: int)
 
 const MAX_HEALTH = 100
 const WALK_SPEED = 200.0
 const JUMP_VELOCITY = -400.0
 const FRICTION = 600.0
 const GRAVITY = 980.0
+const HIT_SOUNDS = [
+	preload("res://assets/audio/2AH.wav"),
+	preload("res://assets/audio/2BH.wav"),
+	preload("res://assets/audio/2CH.wav"),
+	preload("res://assets/audio/2DH.wav"),
+	preload("res://assets/audio/2EH.wav")
+]
 
 @onready var sprite: AnimatedSprite2D = $Sprite
 @onready var hitbox: HitBox = $Hitbox
 @onready var hurtbox: HurtBox = $Hurtbox
 @onready var state_machine: uMachine = $StateMachine
 
-var player_id: int = -1
+@export var player_id: int = -1
 var input: DeviceInput
 var health: int = MAX_HEALTH
 var inventory: Array[Item] = []
 var facing_right: bool = true
+var money: int = 0
 
 var current_move: MoveData
 var action_frame: int = 0
@@ -29,6 +38,7 @@ var max_jumps: int = 2
 var current_jumps: int = 0
 
 func _ready() -> void:
+	set_player_id(player_id)
 	_initialize_systems()
 	_load_default_items()
 
@@ -56,7 +66,15 @@ func take_damage(amount: int, stun_frames: int = 0) -> void:
 func heal(amount: int) -> void:
 	health = max(0, health + amount)
 	health_changed.emit(health, MAX_HEALTH)
+
+func add_item(slot: int, item: Item) -> int:
+	if inventory.size() >= 3:
+		push_warning("Player already has max number of")
+		return 1
 	
+	inventory.insert(slot, item)
+	item_added.emit(item, slot)
+	return 0
 
 func execute_move(move: MoveData) -> void:
 	if not move:
@@ -108,7 +126,7 @@ func _try_execute_move(item_slot: int) -> void:
 	var move_key = _get_move_key()
 	var move = item.variants.get(move_key) as MoveData
 	if move:
-		used_item.emit(item, move.get_total_frames())
+		used_item.emit(item_slot, move.get_total_frames())
 		execute_move(move)
 
 func _get_move_key() -> String:
@@ -135,4 +153,7 @@ func _update_facing() -> void:
 		sprite.flip_h = not facing_right
 
 func _on_hurt(damage: int, stun: int) -> void:
+	SoundManager.play_sound_with_pitch(HIT_SOUNDS.pick_random(), randf_range(0.8, 1.2))
+	#ScreenEffects.hitstop(6)
+	#ScreenEffects.screenshake(8.0, 0.3)
 	take_damage(damage, stun)

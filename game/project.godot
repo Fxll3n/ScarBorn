@@ -12,7 +12,7 @@ config_version=5
 
 config/name="ScarBorn"
 run/main_scene="uid://br7baqjad1uqs"
-config/features=PackedStringArray("4.4", "GL Compatibility")
+config/features=PackedStringArray("4.5", "GL Compatibility")
 run/max_fps=60
 config/icon="uid://c1tqddh4vim67"
 scenes/loading_scene_path="res://addons/yet_another_scene_manager/Scenes/Loading.tscn"
@@ -26,12 +26,18 @@ Utilities="*res://scripts/managers/UTILITIES.gd"
 PhantomCameraManager="*res://addons/phantom_camera/scripts/managers/phantom_camera_manager.gd"
 SceneManager="*res://addons/scene_manager/scene_manager.tscn"
 Scenes="*res://addons/scene_manager/scenes.gd"
+SoundManager="*res://addons/sound_manager/sound_manager.gd"
+ScreenEffects="*res://scripts/managers/ScreenVFXManager.gd"
+ItemRegistry="*res://scripts/managers/item_registry.gd"
+
+[debug]
+
+gdscript/warnings/unused_parameter=0
 
 [display]
 
 window/size/viewport_width=640
 window/size/viewport_height=360
-window/size/mode=3
 window/stretch/mode="canvas_items"
 window/stretch/aspect="expand"
 window/stretch/scale_mode="integer"
@@ -39,7 +45,7 @@ window/vsync/vsync_mode=0
 
 [editor_plugins]
 
-enabled=PackedStringArray("res://addons/godot_super-wakatime/plugin.cfg", "res://addons/limbo_console/plugin.cfg", "res://addons/multiplayer_input/plugin.cfg", "res://addons/phantom_camera/plugin.cfg", "res://addons/scene_manager/plugin.cfg", "res://addons/script-ide/plugin.cfg", "res://addons/uState/plugin.cfg")
+enabled=PackedStringArray("res://addons/godot_super-wakatime/plugin.cfg", "res://addons/limbo_console/plugin.cfg", "res://addons/multiplayer_input/plugin.cfg", "res://addons/phantom_camera/plugin.cfg", "res://addons/scene_manager/plugin.cfg", "res://addons/script-ide/plugin.cfg", "res://addons/sound_manager/plugin.cfg", "res://addons/uState/plugin.cfg")
 
 [global_group]
 
@@ -118,6 +124,7 @@ limbo_console_search_history={
 
 [physics]
 
+2d/physics_engine="Rapier2D"
 common/physics_interpolation=true
 
 [rendering]

@@ -1,0 +1,52 @@
+[gd_resource type="Resource" script_class="Item" load_steps=7 format=3 uid="uid://7d8d6pnnpegj"]
+
+[ext_resource type="Texture2D" uid="uid://c1tqddh4vim67" path="res://icon.png" id="1_clmwu"]
+[ext_resource type="Script" uid="uid://ysdjpttdvhq5" path="res://scripts/resources/item.gd" id="2_hjp20"]
+[ext_resource type="Script" uid="uid://bj5d01jb3amg" path="res://scripts/resources/MoveData.gd" id="3_f3k8t"]
+
+[sub_resource type="Resource" id="Resource_tdh0g"]
+script = ExtResource("3_f3k8t")
+animation_name = &"punch"
+startup = 12
+active = 9
+recovery = 12
+stun = 11
+damage = 10
+hitbox_data = Rect2(-45, -26, 100, 30)
+metadata/_custom_type_script = "uid://bj5d01jb3amg"
+
+[sub_resource type="Resource" id="Resource_hnljn"]
+script = ExtResource("3_f3k8t")
+animation_name = &"uppercut"
+startup = 16
+active = 8
+recovery = 12
+stun = 30
+damage = 15
+hitbox_data = Rect2(-30, -30, 20, 60)
+metadata/_custom_type_script = "uid://bj5d01jb3amg"
+
+[sub_resource type="Resource" id="Resource_qrkaw"]
+script = ExtResource("3_f3k8t")
+animation_name = &"uppercut"
+startup = 16
+active = 8
+recovery = 12
+stun = 30
+damage = 15
+hitbox_data = Rect2(-30, -30, 20, 60)
+metadata/_custom_type_script = "uid://bj5d01jb3amg"
+
+[resource]
+script = ExtResource("2_hjp20")
+name = &"DemoItem"
+icon = ExtResource("1_clmwu")
+description = "Test item, does nothing"
+buy_price = 10
+sell_price = 7
+variants = Dictionary[String, ExtResource("3_f3k8t")]({
+"neutral_ground": SubResource("Resource_tdh0g"),
+"up_special_air": SubResource("Resource_hnljn"),
+"up_special_ground": SubResource("Resource_qrkaw")
+})
+metadata/_custom_type_script = "uid://ysdjpttdvhq5"

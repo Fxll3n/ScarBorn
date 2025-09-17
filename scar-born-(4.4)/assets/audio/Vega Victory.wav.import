@@ -1,0 +1,24 @@
+[remap]
+
+importer="wav"
+type="AudioStreamWAV"
+uid="uid://b8og1k6qsuyis"
+path="res://.godot/imported/Vega Victory.wav-b7f96458b5f77487b593c3b02a41fe74.sample"
+
+[deps]
+
+source_file="res://assets/audio/Vega Victory.wav"
+dest_files=["res://.godot/imported/Vega Victory.wav-b7f96458b5f77487b593c3b02a41fe74.sample"]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=2

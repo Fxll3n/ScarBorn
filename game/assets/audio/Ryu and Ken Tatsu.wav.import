@@ -1,0 +1,24 @@
+[remap]
+
+importer="wav"
+type="AudioStreamWAV"
+uid="uid://cdtjt6yn0mjw8"
+path="res://.godot/imported/Ryu and Ken Tatsu.wav-4e9835c9129e83def6e2fad309fc18eb.sample"
+
+[deps]
+
+source_file="res://assets/audio/Ryu and Ken Tatsu.wav"
+dest_files=["res://.godot/imported/Ryu and Ken Tatsu.wav-4e9835c9129e83def6e2fad309fc18eb.sample"]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=2

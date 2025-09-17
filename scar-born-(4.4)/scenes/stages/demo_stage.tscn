@@ -1,0 +1,9 @@
+[gd_scene format=3 uid="uid://uqrslagkg364"]
+
+[node name="DemoStage" type="Node2D"]
+
+[node name="UI" type="CanvasLayer" parent="."]
+
+[node name="Fighters" type="Node" parent="."]
+
+[node name="Environment" type="Node" parent="."]

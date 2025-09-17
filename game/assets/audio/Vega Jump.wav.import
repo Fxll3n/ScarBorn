@@ -1,0 +1,24 @@
+[remap]
+
+importer="wav"
+type="AudioStreamWAV"
+uid="uid://odd74e0q4obn"
+path="res://.godot/imported/Vega Jump.wav-986d7811694559f61c5bd824405bcd66.sample"
+
+[deps]
+
+source_file="res://assets/audio/Vega Jump.wav"
+dest_files=["res://.godot/imported/Vega Jump.wav-986d7811694559f61c5bd824405bcd66.sample"]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=2

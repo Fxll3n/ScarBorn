@@ -1,0 +1,47 @@
+[gd_scene load_steps=2 format=3 uid="uid://rtgngkwjs74d"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_w5d6q"]
+bg_color = Color(0, 0, 0, 0.854902)
+
+[node name="PopUp" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="PanelContainer" type="PanelContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_w5d6q")
+
+[node name="MarginContainer" type="MarginContainer" parent="PanelContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_top = 20
+theme_override_constants/margin_right = 20
+theme_override_constants/margin_bottom = 20
+
+[node name="VBoxContainer" type="VBoxContainer" parent="PanelContainer/MarginContainer"]
+layout_mode = 2
+
+[node name="ScrollContainer" type="ScrollContainer" parent="PanelContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="RichTextLabel" type="RichTextLabel" parent="PanelContainer/MarginContainer/VBoxContainer/ScrollContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+bbcode_enabled = true
+text = "[wave amp=20.0 freq=1.0 connected=1]Hello player! Welcom to my game: ScarBorn. This is currently an Alpha version (meaning very incomplete) so things are sunject to change. To play you can use WASD and your number keys to use items. While items have move variant logic, they aren't accessible currently so you only have a regular punch. Some features might be locked behind the console. To you use the console press backtick key (\"`\" the key left from the 1 key) to open. Then you write commands. Here are some to get you started:
+[code][bgcolor=black][color=green]spawn_fighter {id} {name}[/color][/bgcolor] - Spawns a new fighter. Use [-2] for a dummy (no inputs) and [-1] for keyboard inputs. ANY OTHER NUMBERS CRASH THE GAME BECAUSE OF CONTROLLER LOGIC.
+[code][bgcolor=black][color=green]collision_visibility {true/false}[/color][/bgcolor] - Enables visibility of collisions.
+[code][bgcolor=black][color=green]damage {fighter} {dmg} {stun_frames}[/color][/bgcolor] - Damages the chosen fighter for the dmg amount and applies set number of frames. "

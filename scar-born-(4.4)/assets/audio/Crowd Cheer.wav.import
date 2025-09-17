@@ -1,0 +1,24 @@
+[remap]
+
+importer="wav"
+type="AudioStreamWAV"
+uid="uid://dryg753ngvxu"
+path="res://.godot/imported/Crowd Cheer.wav-01bac58d1af04732486d5e9a398b8c79.sample"
+
+[deps]
+
+source_file="res://assets/audio/Crowd Cheer.wav"
+dest_files=["res://.godot/imported/Crowd Cheer.wav-01bac58d1af04732486d5e9a398b8c79.sample"]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=2
