@@ -1,5 +1,7 @@
-[gd_scene load_steps=7 format=3 uid="uid://ie3kd1dvjf4e"]
+[gd_scene load_steps=9 format=3 uid="uid://ie3kd1dvjf4e"]
 
+[ext_resource type="Script" uid="uid://bu7wjkybrcc3n" path="res://scripts/fighter_ui.gd" id="1_pi0eg"]
+[ext_resource type="PackedScene" uid="uid://dcf6h3d4vu6s6" path="res://scenes/actors/item_slot.tscn" id="2_pi0eg"]
 [ext_resource type="Texture2D" uid="uid://f8w7jgu2su2p" path="res://assets/art/Ryu.png" id="2_up6mc"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_pi0eg"]
@@ -9,6 +11,8 @@ region = Rect2(1, 142, 100, 100)
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_up6mc"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_up6mc"]
+outline_size = 6
+outline_color = Color(0, 0, 0, 1)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_pi0eg"]
 bg_color = Color(0.180392, 0.180392, 0.180392, 0.937255)
@@ -28,7 +32,7 @@ bg_color = Color(1, 0, 0, 1)
 skew = Vector2(0.3, 0)
 shadow_size = 3
 
-[node name="PlayerIcon" type="Control"]
+[node name="FighterUI" type="Control"]
 custom_minimum_size = Vector2(240, 100)
 layout_mode = 3
 anchors_preset = 0
@@ -36,6 +40,7 @@ offset_right = 200.0
 offset_bottom = 100.0
 size_flags_horizontal = 0
 size_flags_vertical = 8
+script = ExtResource("1_pi0eg")
 
 [node name="MarginContainer" type="MarginContainer" parent="."]
 layout_mode = 1
@@ -87,7 +92,7 @@ theme_override_styles/background = SubResource("StyleBoxFlat_pi0eg")
 theme_override_styles/fill = SubResource("StyleBoxFlat_wfv2r")
 step = 1.0
 value = 100.0
-rounded = true
+allow_greater = true
 show_percentage = false
 
 [node name="HSeparator2" type="HSeparator" parent="MarginContainer/VBoxContainer"]
@@ -98,14 +103,11 @@ theme_override_styles/separator = SubResource("StyleBoxEmpty_up6mc")
 layout_mode = 2
 size_flags_vertical = 3
 
-[node name="Panel" type="Panel" parent="MarginContainer/VBoxContainer/MoveContainer"]
-custom_minimum_size = Vector2(32, 32)
+[node name="Slot1" parent="MarginContainer/VBoxContainer/MoveContainer" instance=ExtResource("2_pi0eg")]
 layout_mode = 2
 
-[node name="Panel2" type="Panel" parent="MarginContainer/VBoxContainer/MoveContainer"]
-custom_minimum_size = Vector2(32, 32)
+[node name="Slot2" parent="MarginContainer/VBoxContainer/MoveContainer" instance=ExtResource("2_pi0eg")]
 layout_mode = 2
 
-[node name="Panel3" type="Panel" parent="MarginContainer/VBoxContainer/MoveContainer"]
-custom_minimum_size = Vector2(32, 32)
+[node name="Slot3" parent="MarginContainer/VBoxContainer/MoveContainer" instance=ExtResource("2_pi0eg")]
 layout_mode = 2

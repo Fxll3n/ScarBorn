@@ -18,7 +18,7 @@ anchor_top = 1.0
 anchor_right = 0.5
 anchor_bottom = 1.0
 offset_left = -25.0
-offset_top = -100.0
+offset_top = -120.0
 offset_right = 25.0
 grow_horizontal = 2
 grow_vertical = 0
@@ -58,6 +58,10 @@ size_flags_horizontal = 4
 size_flags_vertical = 4
 texture = ExtResource("2_yen48")
 expand_mode = 4
+
+[node name="HSeparator" type="HSeparator" parent="PanelContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
 
 [node name="Reroll" type="Button" parent="PanelContainer/MarginContainer/VBoxContainer"]
 layout_mode = 2

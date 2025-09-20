@@ -1,41 +1,17 @@
-[gd_scene load_steps=17 format=3 uid="uid://uqrslagkg364"]
+[gd_scene load_steps=13 format=3 uid="uid://uqrslagkg364"]
 
 [ext_resource type="Script" uid="uid://8htbqxmgh60t" path="res://scripts/bad_stage.gd" id="1_rskmn"]
-[ext_resource type="Texture2D" uid="uid://f8w7jgu2su2p" path="res://assets/art/Ryu.png" id="3_n5e70"]
+[ext_resource type="PackedScene" uid="uid://ie3kd1dvjf4e" path="res://scenes/actors/player_icon.tscn" id="2_3feu7"]
+[ext_resource type="PackedScene" uid="uid://bpavaxq77cbec" path="res://scenes/stages/player_shop.tscn" id="3_3feu7"]
 [ext_resource type="PackedScene" uid="uid://cahwii8wr1od4" path="res://scenes/actors/player.tscn" id="5_lw7l1"]
-[ext_resource type="PackedScene" uid="uid://cl10ajuxf5cj8" path="res://scenes/actors/shop_item.tscn" id="5_w71x5"]
 [ext_resource type="Texture2D" uid="uid://cfrstp1huv66c" path="res://assets/art/stage.png" id="7_mvh6m"]
 [ext_resource type="Script" uid="uid://bd046eokvcnu2" path="res://addons/phantom_camera/scripts/phantom_camera_host/phantom_camera_host.gd" id="8_cjfwj"]
 [ext_resource type="Script" uid="uid://bhexx6mj1xv3q" path="res://addons/phantom_camera/scripts/phantom_camera/phantom_camera_2d.gd" id="9_5v6j1"]
 [ext_resource type="Script" uid="uid://8umksf8e80fw" path="res://addons/phantom_camera/scripts/resources/tween_resource.gd" id="10_glwgh"]
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_pi0eg"]
-atlas = ExtResource("3_n5e70")
-region = Rect2(1, 142, 100, 100)
-
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_up6mc"]
-
-[sub_resource type="LabelSettings" id="LabelSettings_up6mc"]
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_pi0eg"]
-bg_color = Color(0.180392, 0.180392, 0.180392, 0.937255)
-skew = Vector2(0.3, 0)
-border_width_left = 3
-border_width_top = 3
-border_width_right = 3
-border_width_bottom = 3
-border_color = Color(0, 0, 0, 1)
-expand_margin_left = 3.0
-expand_margin_top = 3.0
-expand_margin_right = 3.0
-expand_margin_bottom = 3.0
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_wfv2r"]
-bg_color = Color(1, 0, 0, 1)
-skew = Vector2(0.3, 0)
-shadow_size = 3
-
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_w71x5"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_3feu7"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_oqixw"]
 size = Vector2(1538, 46)
@@ -65,84 +41,9 @@ anchor_right = 1.0
 offset_bottom = 100.0
 grow_horizontal = 2
 
-[node name="Player1" type="Control" parent="UI/Control/PlayerUI"]
-custom_minimum_size = Vector2(240, 100)
+[node name="FighterUI1" parent="UI/Control/PlayerUI" node_paths=PackedStringArray("fighter") instance=ExtResource("2_3feu7")]
 layout_mode = 2
-size_flags_horizontal = 0
-size_flags_vertical = 8
-
-[node name="MarginContainer" type="MarginContainer" parent="UI/Control/PlayerUI/Player1"]
-layout_mode = 1
-anchors_preset = 10
-anchor_right = 1.0
-offset_bottom = 51.0
-grow_horizontal = 2
-theme_override_constants/margin_left = 10
-theme_override_constants/margin_top = 10
-theme_override_constants/margin_right = 10
-theme_override_constants/margin_bottom = 10
-
-[node name="VBoxContainer" type="VBoxContainer" parent="UI/Control/PlayerUI/Player1/MarginContainer"]
-layout_mode = 2
-alignment = 1
-
-[node name="HBoxContainer" type="HBoxContainer" parent="UI/Control/PlayerUI/Player1/MarginContainer/VBoxContainer"]
-layout_mode = 2
-
-[node name="FighterIcon" type="TextureRect" parent="UI/Control/PlayerUI/Player1/MarginContainer/VBoxContainer/HBoxContainer"]
-custom_minimum_size = Vector2(32, 32)
-layout_mode = 2
-size_flags_horizontal = 4
-size_flags_vertical = 4
-texture = SubResource("AtlasTexture_pi0eg")
-expand_mode = 4
-
-[node name="VSeparator" type="VSeparator" parent="UI/Control/PlayerUI/Player1/MarginContainer/VBoxContainer/HBoxContainer"]
-layout_mode = 2
-size_flags_horizontal = 0
-theme_override_styles/separator = SubResource("StyleBoxEmpty_up6mc")
-
-[node name="FighterName" type="Label" parent="UI/Control/PlayerUI/Player1/MarginContainer/VBoxContainer/HBoxContainer"]
-layout_mode = 2
-size_flags_horizontal = 2
-text = "Fighter 1"
-label_settings = SubResource("LabelSettings_up6mc")
-horizontal_alignment = 1
-vertical_alignment = 1
-
-[node name="HSeparator" type="HSeparator" parent="UI/Control/PlayerUI/Player1/MarginContainer/VBoxContainer"]
-layout_mode = 2
-theme_override_styles/separator = SubResource("StyleBoxEmpty_up6mc")
-
-[node name="HealthBar" type="ProgressBar" parent="UI/Control/PlayerUI/Player1/MarginContainer/VBoxContainer"]
-custom_minimum_size = Vector2(0, 15)
-layout_mode = 2
-theme_override_styles/background = SubResource("StyleBoxFlat_pi0eg")
-theme_override_styles/fill = SubResource("StyleBoxFlat_wfv2r")
-step = 1.0
-value = 100.0
-rounded = true
-show_percentage = false
-
-[node name="HSeparator2" type="HSeparator" parent="UI/Control/PlayerUI/Player1/MarginContainer/VBoxContainer"]
-layout_mode = 2
-theme_override_styles/separator = SubResource("StyleBoxEmpty_up6mc")
-
-[node name="MoveContainer" type="HBoxContainer" parent="UI/Control/PlayerUI/Player1/MarginContainer/VBoxContainer"]
-layout_mode = 2
-size_flags_vertical = 3
-
-[node name="Panel" type="Panel" parent="UI/Control/PlayerUI/Player1/MarginContainer/VBoxContainer/MoveContainer"]
-custom_minimum_size = Vector2(32, 32)
-layout_mode = 2
-
-[node name="Panel2" type="Panel" parent="UI/Control/PlayerUI/Player1/MarginContainer/VBoxContainer/MoveContainer"]
-custom_minimum_size = Vector2(32, 32)
-layout_mode = 2
-
-[node name="Panel3" type="Panel" parent="UI/Control/PlayerUI/Player1/MarginContainer/VBoxContainer/MoveContainer"]
-custom_minimum_size = Vector2(32, 32)
-layout_mode = 2
+fighter = NodePath("../../../../Fighters/Fighter1")
 
 [node name="VSeparator" type="VSeparator" parent="UI/Control/PlayerUI"]
 layout_mode = 2
@@ -153,7 +54,7 @@ theme_override_styles/separator = SubResource("StyleBoxEmpty_w71x5")
 custom_minimum_size = Vector2(32, 32)
 layout_mode = 2
 bbcode_enabled = true
-text = "[shake rate=30.0 level=10 connected=1]60"
+text = "[shake rate=30.0 level=10 connected=1][outline_size=6]60"
 horizontal_alignment = 1
 vertical_alignment = 1
 
@@ -162,86 +63,21 @@ layout_mode = 2
 size_flags_horizontal = 3
 theme_override_styles/separator = SubResource("StyleBoxEmpty_w71x5")
 
-[node name="Player2" type="Control" parent="UI/Control/PlayerUI"]
-custom_minimum_size = Vector2(240, 100)
+[node name="FighterUI2" parent="UI/Control/PlayerUI" node_paths=PackedStringArray("fighter") instance=ExtResource("2_3feu7")]
 layout_mode = 2
-size_flags_horizontal = 8
-size_flags_vertical = 8
+fighter = NodePath("../../../../Fighters/Fighter2")
 
-[node name="MarginContainer" type="MarginContainer" parent="UI/Control/PlayerUI/Player2"]
-layout_mode = 1
-anchors_preset = 10
-anchor_right = 1.0
-offset_bottom = 51.0
-grow_horizontal = 2
-theme_override_constants/margin_left = 10
-theme_override_constants/margin_top = 10
-theme_override_constants/margin_right = 10
-theme_override_constants/margin_bottom = 10
-
-[node name="VBoxContainer" type="VBoxContainer" parent="UI/Control/PlayerUI/Player2/MarginContainer"]
-layout_mode = 2
-alignment = 1
-
-[node name="HBoxContainer" type="HBoxContainer" parent="UI/Control/PlayerUI/Player2/MarginContainer/VBoxContainer"]
-layout_mode = 2
-
-[node name="FighterName" type="Label" parent="UI/Control/PlayerUI/Player2/MarginContainer/VBoxContainer/HBoxContainer"]
-layout_mode = 2
+[node name="FighterIcon" parent="UI/Control/PlayerUI/FighterUI2/MarginContainer/VBoxContainer/HBoxContainer" index="0"]
 size_flags_horizontal = 10
-text = "Fighter 2"
-label_settings = SubResource("LabelSettings_up6mc")
-horizontal_alignment = 1
-vertical_alignment = 1
 
-[node name="VSeparator" type="VSeparator" parent="UI/Control/PlayerUI/Player2/MarginContainer/VBoxContainer/HBoxContainer"]
-layout_mode = 2
-size_flags_horizontal = 0
-theme_override_styles/separator = SubResource("StyleBoxEmpty_up6mc")
+[node name="VSeparator" parent="UI/Control/PlayerUI/FighterUI2/MarginContainer/VBoxContainer/HBoxContainer" index="1"]
+size_flags_horizontal = 1
 
-[node name="FighterIcon" type="TextureRect" parent="UI/Control/PlayerUI/Player2/MarginContainer/VBoxContainer/HBoxContainer"]
-custom_minimum_size = Vector2(32, 32)
-layout_mode = 2
-size_flags_horizontal = 4
-size_flags_vertical = 4
-texture = SubResource("AtlasTexture_pi0eg")
-expand_mode = 4
+[node name="FighterName" parent="UI/Control/PlayerUI/FighterUI2/MarginContainer/VBoxContainer/HBoxContainer" index="2"]
+size_flags_horizontal = 10
 
-[node name="HSeparator" type="HSeparator" parent="UI/Control/PlayerUI/Player2/MarginContainer/VBoxContainer"]
-layout_mode = 2
-theme_override_styles/separator = SubResource("StyleBoxEmpty_up6mc")
-
-[node name="HealthBar" type="ProgressBar" parent="UI/Control/PlayerUI/Player2/MarginContainer/VBoxContainer"]
-custom_minimum_size = Vector2(0, 15)
-layout_mode = 2
-theme_override_styles/background = SubResource("StyleBoxFlat_pi0eg")
-theme_override_styles/fill = SubResource("StyleBoxFlat_wfv2r")
-step = 1.0
-value = 80.0
-rounded = true
-fill_mode = 1
-show_percentage = false
-
-[node name="HSeparator2" type="HSeparator" parent="UI/Control/PlayerUI/Player2/MarginContainer/VBoxContainer"]
-layout_mode = 2
-theme_override_styles/separator = SubResource("StyleBoxEmpty_up6mc")
-
-[node name="MoveContainer" type="HBoxContainer" parent="UI/Control/PlayerUI/Player2/MarginContainer/VBoxContainer"]
-layout_mode = 2
-size_flags_vertical = 3
+[node name="MoveContainer" parent="UI/Control/PlayerUI/FighterUI2/MarginContainer/VBoxContainer" index="4"]
 alignment = 2
-
-[node name="Panel" type="Panel" parent="UI/Control/PlayerUI/Player2/MarginContainer/VBoxContainer/MoveContainer"]
-custom_minimum_size = Vector2(32, 32)
-layout_mode = 2
-
-[node name="Panel2" type="Panel" parent="UI/Control/PlayerUI/Player2/MarginContainer/VBoxContainer/MoveContainer"]
-custom_minimum_size = Vector2(32, 32)
-layout_mode = 2
-
-[node name="Panel3" type="Panel" parent="UI/Control/PlayerUI/Player2/MarginContainer/VBoxContainer/MoveContainer"]
-custom_minimum_size = Vector2(32, 32)
-layout_mode = 2
 
 [node name="Shops" type="HBoxContainer" parent="UI/Control"]
 layout_mode = 1
@@ -253,140 +89,28 @@ grow_horizontal = 2
 grow_vertical = 0
 alignment = 1
 
-[node name="Player1" type="Control" parent="UI/Control/Shops"]
-custom_minimum_size = Vector2(200, 225)
+[node name="PlayerShop1" parent="UI/Control/Shops" node_paths=PackedStringArray("fighter") instance=ExtResource("3_3feu7")]
 layout_mode = 2
-
-[node name="PanelContainer" type="PanelContainer" parent="UI/Control/Shops/Player1"]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-
-[node name="MarginContainer" type="MarginContainer" parent="UI/Control/Shops/Player1/PanelContainer"]
-layout_mode = 2
-theme_override_constants/margin_left = 10
-theme_override_constants/margin_top = 10
-theme_override_constants/margin_right = 10
-theme_override_constants/margin_bottom = 10
-
-[node name="VBoxContainer" type="VBoxContainer" parent="UI/Control/Shops/Player1/PanelContainer/MarginContainer"]
-layout_mode = 2
-alignment = 1
-
-[node name="Continue" type="Button" parent="UI/Control/Shops/Player1/PanelContainer/MarginContainer/VBoxContainer"]
-layout_mode = 2
-size_flags_vertical = 0
-text = "Next Round"
-
-[node name="HSeparator2" type="HSeparator" parent="UI/Control/Shops/Player1/PanelContainer/MarginContainer/VBoxContainer"]
-layout_mode = 2
-size_flags_vertical = 3
-
-[node name="Label" type="RichTextLabel" parent="UI/Control/Shops/Player1/PanelContainer/MarginContainer/VBoxContainer"]
-layout_mode = 2
-size_flags_vertical = 0
-bbcode_enabled = true
-text = "[wave amp=15.0 freq=2.5.0 connected=0][color=gold]999 G"
-fit_content = true
-horizontal_alignment = 1
-vertical_alignment = 1
-
-[node name="HSeparator" type="HSeparator" parent="UI/Control/Shops/Player1/PanelContainer/MarginContainer/VBoxContainer"]
-layout_mode = 2
-size_flags_vertical = 3
-
-[node name="Items" type="HBoxContainer" parent="UI/Control/Shops/Player1/PanelContainer/MarginContainer/VBoxContainer"]
-clip_contents = true
-layout_mode = 2
-size_flags_vertical = 3
-theme_override_constants/separation = 10
-alignment = 1
-
-[node name="ShopItem" parent="UI/Control/Shops/Player1/PanelContainer/MarginContainer/VBoxContainer/Items" instance=ExtResource("5_w71x5")]
-layout_mode = 2
-
-[node name="ShopItem2" parent="UI/Control/Shops/Player1/PanelContainer/MarginContainer/VBoxContainer/Items" instance=ExtResource("5_w71x5")]
-layout_mode = 2
-
-[node name="ShopItem3" parent="UI/Control/Shops/Player1/PanelContainer/MarginContainer/VBoxContainer/Items" instance=ExtResource("5_w71x5")]
-layout_mode = 2
+fighter = NodePath("../../../../Fighters/Fighter1")
 
 [node name="VSeparator" type="VSeparator" parent="UI/Control/Shops"]
 layout_mode = 2
 size_flags_horizontal = 3
+theme_override_styles/separator = SubResource("StyleBoxEmpty_3feu7")
 
-[node name="Player2" type="Control" parent="UI/Control/Shops"]
-custom_minimum_size = Vector2(200, 225)
+[node name="PlayerShop2" parent="UI/Control/Shops" node_paths=PackedStringArray("fighter") instance=ExtResource("3_3feu7")]
 layout_mode = 2
-
-[node name="PanelContainer" type="PanelContainer" parent="UI/Control/Shops/Player2"]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-
-[node name="MarginContainer" type="MarginContainer" parent="UI/Control/Shops/Player2/PanelContainer"]
-layout_mode = 2
-theme_override_constants/margin_left = 10
-theme_override_constants/margin_top = 10
-theme_override_constants/margin_right = 10
-theme_override_constants/margin_bottom = 10
-
-[node name="VBoxContainer" type="VBoxContainer" parent="UI/Control/Shops/Player2/PanelContainer/MarginContainer"]
-layout_mode = 2
-alignment = 1
-
-[node name="Continue" type="Button" parent="UI/Control/Shops/Player2/PanelContainer/MarginContainer/VBoxContainer"]
-layout_mode = 2
-size_flags_vertical = 0
-text = "Next Round"
-
-[node name="HSeparator2" type="HSeparator" parent="UI/Control/Shops/Player2/PanelContainer/MarginContainer/VBoxContainer"]
-layout_mode = 2
-size_flags_vertical = 3
-
-[node name="Label" type="RichTextLabel" parent="UI/Control/Shops/Player2/PanelContainer/MarginContainer/VBoxContainer"]
-layout_mode = 2
-size_flags_vertical = 0
-bbcode_enabled = true
-text = "[wave amp=15.0 freq=2.5.0 connected=0][color=gold]999 G"
-fit_content = true
-horizontal_alignment = 1
-vertical_alignment = 1
-
-[node name="HSeparator" type="HSeparator" parent="UI/Control/Shops/Player2/PanelContainer/MarginContainer/VBoxContainer"]
-layout_mode = 2
-size_flags_vertical = 3
-
-[node name="Items" type="HBoxContainer" parent="UI/Control/Shops/Player2/PanelContainer/MarginContainer/VBoxContainer"]
-clip_contents = true
-layout_mode = 2
-size_flags_vertical = 3
-theme_override_constants/separation = 10
-alignment = 1
-
-[node name="ShopItem" parent="UI/Control/Shops/Player2/PanelContainer/MarginContainer/VBoxContainer/Items" instance=ExtResource("5_w71x5")]
-layout_mode = 2
-
-[node name="ShopItem2" parent="UI/Control/Shops/Player2/PanelContainer/MarginContainer/VBoxContainer/Items" instance=ExtResource("5_w71x5")]
-layout_mode = 2
-
-[node name="ShopItem3" parent="UI/Control/Shops/Player2/PanelContainer/MarginContainer/VBoxContainer/Items" instance=ExtResource("5_w71x5")]
-layout_mode = 2
+fighter = NodePath("../../../../Fighters/Fighter2")
 
 [node name="Fighters" type="Node" parent="."]
 
-[node name="Fighter2" parent="Fighters" instance=ExtResource("5_lw7l1")]
-position = Vector2(-456, 0)
-player_id = -2
-
 [node name="Fighter1" parent="Fighters" instance=ExtResource("5_lw7l1")]
-position = Vector2(436, 0)
+z_index = 11
+position = Vector2(-262, 39)
+
+[node name="Fighter2" parent="Fighters" instance=ExtResource("5_lw7l1")]
+position = Vector2(264, 39)
+player_id = -2
 
 [node name="Environment" type="Node" parent="."]
 
@@ -426,13 +150,12 @@ shape = SubResource("RectangleShape2D_oqixw")
 
 [node name="Camera2D" type="Camera2D" parent="."]
 physics_interpolation_mode = 1
-position = Vector2(-10, 0)
-zoom = Vector2(0.71748877, 0.71748877)
+position = Vector2(1, 20)
 process_callback = 0
 limit_left = -767
 limit_top = -304
 limit_right = 767
-limit_bottom = 283
+limit_bottom = 200
 editor_draw_limits = true
 
 [node name="PhantomCameraHost" type="Node" parent="Camera2D"]
@@ -443,11 +166,10 @@ metadata/_custom_type_script = "uid://bd046eokvcnu2"
 
 [node name="PhantomCamera2D" type="Node2D" parent="." node_paths=PackedStringArray("follow_targets")]
 top_level = true
-position = Vector2(-10, 0)
+position = Vector2(1, 20)
 script = ExtResource("9_5v6j1")
 follow_mode = 3
 follow_targets = [NodePath("../Fighters/Fighter2"), NodePath("../Fighters/Fighter1")]
-zoom = Vector2(0.71748877, 0.71748877)
 snap_to_pixel = true
 tween_resource = SubResource("Resource_nmueb")
 follow_damping = true
@@ -458,8 +180,10 @@ draw_limits = true
 limit_left = -767
 limit_top = -304
 limit_right = 767
-limit_bottom = 283
+limit_bottom = 200
 metadata/_custom_type_script = "uid://bhexx6mj1xv3q"
 
-[connection signal="pressed" from="UI/Control/Shops/Player1/PanelContainer/MarginContainer/VBoxContainer/Continue" to="UI/Control/Shops/Player1" method="_on_button_pressed"]
-[connection signal="pressed" from="UI/Control/Shops/Player2/PanelContainer/MarginContainer/VBoxContainer/Continue" to="UI/Control/Shops/Player2" method="_on_button_pressed"]
+[node name="RoundTimer" type="Timer" parent="."]
+one_shot = true
+
+[editable path="UI/Control/PlayerUI/FighterUI2"]

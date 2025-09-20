@@ -5,21 +5,20 @@ extends Control
 @onready var item_icon: TextureRect = $PanelContainer/MarginContainer/VBoxContainer/ItemIcon
 @onready var reroll_btn: Button = $PanelContainer/MarginContainer/VBoxContainer/Reroll
 @onready var buy_btn: Button = $PanelContainer/MarginContainer/VBoxContainer/Buy
-@onready var current_item: Item = ItemRegistry.get_random_item_by_rarity("Plastic")
 
+var current_item: Item = null
 var fighter: Fighter = null
-var shop: Shop = owner
 
 var reroll_cost: int = 0
 var buy_cost: int = 0
 
-func _ready() -> void:
-	buy_cost = current_item.buy_price
-	reroll_cost = 2
 
 func update_visuals() -> void:
 	item_icon.texture = current_item.icon
 	item_name.text = current_item.name
+	
+	reroll_btn.tooltip_text = "Rerolls that specific item.\nCosts:\t%s" % reroll_cost
+	buy_btn.tooltip_text = "Costs:\t%s" % buy_cost
 	
 	if fighter.money >= buy_cost:
 		buy_btn.disabled = false
@@ -33,17 +32,21 @@ func update_visuals() -> void:
 
 
 func _reroll() -> void:
+	if not fighter or fighter.money < reroll_cost:
+		return
+	
+	fighter.set_money(fighter.money - reroll_cost)
 	current_item = ItemRegistry.get_random_item()
 	reroll_cost = int(reroll_cost * 1.5)
 	buy_cost = current_item.buy_price
-	
-	reroll_btn.tooltip_text = "Rerolls that specific item.\nCosts:\t%s" % reroll_cost
+	update_visuals()
 
 func _buy() -> void:
-	if not fighter:
+	if not fighter or fighter.money < buy_cost:
 		return
 	
+	fighter.set_money(fighter.money - buy_cost)
 	fighter.add_item(0, current_item)
 	fighter.money -= buy_cost
-	shop._update_gold(fighter.money)
-	self.hide()
+	update_visuals()
+	queue_free()

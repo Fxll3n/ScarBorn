@@ -15,7 +15,7 @@ func _ready() -> void:
 	pop_up.show()
 
 func _on_continue_pressed() -> void:
-	SoundManager.play_sound(preload("res://assets/audio/24H.wav"))
+	SoundManager.play_ui_sound(preload("res://assets/audio/24H.wav"))
 	pop_up.hide()
 	menus.show()
 
@@ -25,12 +25,12 @@ func _on_play_coop_pressed() -> void:
 
 
 func _on_play_single_pressed() -> void:
-	SoundManager.play_sound(preload("res://assets/audio/24H.wav"))
-	SoundManager.play_sound(preload("res://assets/audio/22H.wav"))
+	SoundManager.play_ui_sound(preload("res://assets/audio/24H.wav"))
+	SoundManager.play_ui_sound(preload("res://assets/audio/22H.wav"))
 	SoundManager.stop_music(1)
 	LimboConsole.enabled = true
 	SceneManager.change_scene(
-		"test_stage_2",
+		"demo_stage",
 		SceneManager.create_options(1, "pixel", 0.1, true),
 		SceneManager.create_options(0.5, "pixel", 0.1, true),
 		SceneManager.create_general_options(Color.BLACK)

@@ -1,0 +1,36 @@
+[gd_scene load_steps=3 format=3 uid="uid://dcf6h3d4vu6s6"]
+
+[ext_resource type="Texture2D" uid="uid://cggvnujpj5a1h" path="res://assets/art/BoxingGlove.png" id="1_4q1ug"]
+[ext_resource type="Script" uid="uid://c3jws41dl2xjt" path="res://scripts/item_slot.gd" id="1_oo6ru"]
+
+[node name="Slot1" type="Control"]
+custom_minimum_size = Vector2(40, 40)
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+script = ExtResource("1_oo6ru")
+
+[node name="PanelContainer" type="PanelContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="PanelContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 3
+theme_override_constants/margin_top = 3
+theme_override_constants/margin_right = 3
+theme_override_constants/margin_bottom = 3
+
+[node name="TextureProgressBar" type="TextureProgressBar" parent="PanelContainer/MarginContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+fill_mode = 4
+texture_under = ExtResource("1_4q1ug")
+texture_progress = ExtResource("1_4q1ug")
+tint_progress = Color(0, 0, 0, 0.5019608)

@@ -3,8 +3,9 @@ extends CharacterBody2D
 
 signal died
 signal health_changed(current: int, maximum: int)
-signal item_added(item: Item, slot: int)
+signal inventory_updated(updated_inventory: Array[Item])
 signal used_item(slot: int, move_cooldown: int)
+signal money_changed(new_amount: int)
 
 const MAX_HEALTH = 100
 const WALK_SPEED = 200.0
@@ -23,13 +24,14 @@ const HIT_SOUNDS = [
 @onready var hitbox: HitBox = $Hitbox
 @onready var hurtbox: HurtBox = $Hurtbox
 @onready var state_machine: uMachine = $StateMachine
+@onready var self_heal_timer: Timer = Timer.new()
 
 @export var player_id: int = -1
 var input: DeviceInput
 var health: int = MAX_HEALTH
 var inventory: Array[Item] = []
 var facing_right: bool = true
-var money: int = 0
+var money: int = 999
 
 var current_move: MoveData
 var action_frame: int = 0
@@ -38,6 +40,11 @@ var max_jumps: int = 2
 var current_jumps: int = 0
 
 func _ready() -> void:
+	if player_id <= -2:
+		add_child(self_heal_timer)
+		self_heal_timer.one_shot = true
+		self_heal_timer.timeout.connect(_on_heal_timeout)
+	
 	set_player_id(player_id)
 	_initialize_systems()
 	_load_default_items()
@@ -73,7 +80,7 @@ func add_item(slot: int, item: Item) -> int:
 		return 1
 	
 	inventory.insert(slot, item)
-	item_added.emit(item, slot)
+	inventory_updated.emit(inventory)
 	return 0
 
 func execute_move(move: MoveData) -> void:
@@ -85,16 +92,23 @@ func execute_move(move: MoveData) -> void:
 	state_machine.change_state("action")
 
 func get_input_direction() -> Vector2:
+	if  input.device < -1:
+		return Vector2.ZERO
 	return input.get_vector("left", "right", "up", "down") if input else Vector2.ZERO
+
+func set_money(new_amount: int) -> void:
+	money = clampi(new_amount, -999, 999)
+	money_changed.emit(money)
 
 func _initialize_systems() -> void:
 	hurtbox.hit.connect(_on_hurt)
 
 func _load_default_items() -> void:
 	inventory.append(load("res://assets/resources/BoxingGloves.tres"))
+	inventory_updated.emit(inventory)
 
 func _handle_input() -> void:
-	if not input or stun_duration > 0:
+	if not input or stun_duration > 0 or input.device < -1:
 		return
 	elif state_machine.current_state.name.to_lower() == "action":
 		return
@@ -157,3 +171,9 @@ func _on_hurt(damage: int, stun: int) -> void:
 	#ScreenEffects.hitstop(6)
 	#ScreenEffects.screenshake(8.0, 0.3)
 	take_damage(damage, stun)
+	
+	if self_heal_timer:
+		self_heal_timer.start(3)
+
+func _on_heal_timeout() -> void:
+	heal(MAX_HEALTH - health)

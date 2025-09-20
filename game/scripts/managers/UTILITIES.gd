@@ -66,11 +66,16 @@ func setup_console() -> void:
 		func():
 			return [true, false]
 	)
+	LimboConsole.register_command(
+		game_speed,
+		"set_game_speed",
+		"Sets the game speed."
+	)
 
 func add_item(item: String, slot: int = 0,fighter: String = "Fighter") -> void:
 	var fighter_node: Fighter = find_node_by_name(fighter, "players") as Fighter
 	
-	if slot >= fighter_node.inventory.size():
+	if slot >= fighter_node.inventory.size() or fighter_node.inventory.size() >= 3:
 		return
 	
 	if not fighter_node:
@@ -82,14 +87,14 @@ func add_item(item: String, slot: int = 0,fighter: String = "Fighter") -> void:
 		print("Item '%s' not found at path: %s" % [item, item_path])
 		return
 	
-	var item_resource = load(item_path)
+	var item_resource = load(item_path).duplicate()
 	if not item_resource is Item:
 		print("Resource '%s' is not a valid Item" % item)
 		return
 	
 	fighter_node.inventory.insert(slot, item_resource)
-	fighter_node.item_added.emit(item_resource, slot)
-	print("Added '%s' to %s's inventory" % [item_resource.name, fighter])
+	fighter_node.inventory_updated.emit(fighter_node.inventory)
+	LimboConsole.print_line("Added '%s' to %s's inventory" % [item_resource.name, fighter])
 
 func damage_fighter(fighter: String, amount: int, stun_frames: int) -> void:
 	var fighter_node: Fighter = find_node_by_name(fighter, "players") as Fighter
@@ -100,7 +105,9 @@ func damage_fighter(fighter: String, amount: int, stun_frames: int) -> void:
 	
 	fighter_node.take_damage(amount, stun_frames)
 
-#func teleport_fighter(fighter: String,)
+func game_speed(speed: float = 1.0) -> void:
+	Engine.time_scale = speed
+	Engine.physics_ticks_per_second = int(speed * 60)
 
 
 func show_popup(show: bool = true) -> void:
