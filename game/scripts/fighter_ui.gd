@@ -9,6 +9,7 @@ const SLOT_SCENE: PackedScene = preload("uid://dcf6h3d4vu6s6")
 @onready var move_container: HBoxContainer = $MarginContainer/VBoxContainer/MoveContainer
 
 func _ready() -> void:
+	hide()
 	if fighter == null:
 		print("Error: Fighter is null!")
 		return
@@ -47,3 +48,15 @@ func _on_inventory_updated(new_inv: Array[Item]) -> void:
 		slot.slot_id = i
 		fighter.used_item.connect(slot._on_used)
 		i += 1
+
+
+func _on_phase_changed(new_phase: BadStage.PHASES) -> void:
+	match new_phase:
+		BadStage.PHASES.FIGHT:
+			show()
+		BadStage.PHASES.SHOP:
+			hide()
+		BadStage.PHASES.GAME_OVER:
+			hide()
+		BadStage.PHASES.NONE:
+			hide()

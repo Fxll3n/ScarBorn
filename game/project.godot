@@ -13,7 +13,8 @@ config_version=5
 config/name="ScarBorn"
 run/main_scene="uid://br7baqjad1uqs"
 config/features=PackedStringArray("4.5", "GL Compatibility")
-run/max_fps=60
+boot_splash/bg_color=Color(0, 0, 0, 1)
+boot_splash/image="uid://c1tqddh4vim67"
 config/icon="uid://c1tqddh4vim67"
 scenes/loading_scene_path="res://addons/yet_another_scene_manager/Scenes/Loading.tscn"
 scenes/error_scene_path="res://addons/yet_another_scene_manager/Scenes/Error.tscn"
@@ -46,11 +47,12 @@ window/vsync/vsync_mode=0
 
 [editor_plugins]
 
-enabled=PackedStringArray("res://addons/godot_super-wakatime/plugin.cfg", "res://addons/limbo_console/plugin.cfg", "res://addons/multiplayer_input/plugin.cfg", "res://addons/phantom_camera/plugin.cfg", "res://addons/scene_manager/plugin.cfg", "res://addons/script-ide/plugin.cfg", "res://addons/sound_manager/plugin.cfg", "res://addons/uState/plugin.cfg")
+enabled=PackedStringArray("res://addons/AS2P/plugin.cfg", "res://addons/godot_super-wakatime/plugin.cfg", "res://addons/limbo_console/plugin.cfg", "res://addons/multiplayer_input/plugin.cfg", "res://addons/phantom_camera/plugin.cfg", "res://addons/scene_manager/plugin.cfg", "res://addons/script-ide/plugin.cfg", "res://addons/sound_manager/plugin.cfg", "res://addons/uState/plugin.cfg")
 
 [global_group]
 
 players=""
+stage=""
 
 [input]
 
@@ -125,6 +127,7 @@ limbo_console_search_history={
 
 [physics]
 
+2d/run_on_separate_thread=true
 2d/physics_engine="Rapier2D"
 common/physics_interpolation=true
 

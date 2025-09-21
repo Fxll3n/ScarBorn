@@ -1,6 +1,7 @@
-[gd_scene load_steps=13 format=3 uid="uid://uqrslagkg364"]
+[gd_scene load_steps=14 format=3 uid="uid://uqrslagkg364"]
 
 [ext_resource type="Script" uid="uid://8htbqxmgh60t" path="res://scripts/bad_stage.gd" id="1_rskmn"]
+[ext_resource type="Script" uid="uid://ce6wheitlxnnr" path="res://scripts/fps_counter.gd" id="2_2aemp"]
 [ext_resource type="PackedScene" uid="uid://ie3kd1dvjf4e" path="res://scenes/actors/player_icon.tscn" id="2_3feu7"]
 [ext_resource type="PackedScene" uid="uid://bpavaxq77cbec" path="res://scenes/stages/player_shop.tscn" id="3_3feu7"]
 [ext_resource type="PackedScene" uid="uid://cahwii8wr1od4" path="res://scenes/actors/player.tscn" id="5_lw7l1"]
@@ -19,14 +20,27 @@ size = Vector2(1538, 46)
 [sub_resource type="Resource" id="Resource_nmueb"]
 script = ExtResource("10_glwgh")
 
-[node name="DemoStage" type="Node2D" node_paths=PackedStringArray("fighter1", "fighter2")]
+[node name="DemoStage" type="Node2D" node_paths=PackedStringArray("fighter1", "fighter2") groups=["stage"]]
 script = ExtResource("1_rskmn")
 fighter1 = NodePath("Fighters/Fighter1")
 fighter2 = NodePath("Fighters/Fighter2")
+round_duration = 10.0
 
 [node name="UI" type="CanvasLayer" parent="."]
 
+[node name="FPS_COUNTER" type="Label" parent="UI"]
+process_mode = 3
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_top = -23.0
+offset_right = 40.0
+grow_vertical = 0
+text = "FPS"
+script = ExtResource("2_2aemp")
+
 [node name="Control" type="Control" parent="UI"]
+process_mode = 3
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -185,5 +199,12 @@ metadata/_custom_type_script = "uid://bhexx6mj1xv3q"
 
 [node name="RoundTimer" type="Timer" parent="."]
 one_shot = true
+
+[connection signal="phase_changed" from="." to="UI/Control/PlayerUI/FighterUI1" method="_on_phase_changed"]
+[connection signal="phase_changed" from="." to="UI/Control/PlayerUI/FighterUI2" method="_on_phase_changed"]
+[connection signal="phase_changed" from="." to="UI/Control/Shops/PlayerShop1" method="_on_phase_changed"]
+[connection signal="phase_changed" from="." to="UI/Control/Shops/PlayerShop2" method="_on_phase_changed"]
+[connection signal="player_ready" from="UI/Control/Shops/PlayerShop1" to="." method="_on_fighter_ready"]
+[connection signal="player_ready" from="UI/Control/Shops/PlayerShop2" to="." method="_on_fighter_ready"]
 
 [editable path="UI/Control/PlayerUI/FighterUI2"]

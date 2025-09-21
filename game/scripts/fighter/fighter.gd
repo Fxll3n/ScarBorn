@@ -31,13 +31,15 @@ var input: DeviceInput
 var health: int = MAX_HEALTH
 var inventory: Array[Item] = []
 var facing_right: bool = true
-var money: int = 999
+var money: int = 10
 
 var current_move: MoveData
 var action_frame: int = 0
 var stun_duration: int = 0
 var max_jumps: int = 2
 var current_jumps: int = 0
+var lose_streak: int = 0
+var is_ready: bool = false
 
 func _ready() -> void:
 	if player_id <= -2:

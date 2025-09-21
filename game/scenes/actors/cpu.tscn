@@ -1,9 +1,10 @@
-[gd_scene load_steps=47 format=3 uid="uid://dkhf4807gra1s"]
+[gd_scene load_steps=58 format=3 uid="uid://dkhf4807gra1s"]
 
 [ext_resource type="Shader" uid="uid://dpgwyo572ca" path="res://scripts/resources/shaders/anooying_color_shader.gdshader" id="2_ipq8n"]
 [ext_resource type="Texture2D" uid="uid://f8w7jgu2su2p" path="res://assets/art/Ryu.png" id="3_3o3to"]
 [ext_resource type="Texture2D" uid="uid://v6h377ogui80" path="res://assets/art/walk_sheet.png" id="4_xdas6"]
 [ext_resource type="Script" uid="uid://dlyo8ra4hychi" path="res://scripts/fighter/hitbox.gd" id="5_odirk"]
+[ext_resource type="Script" uid="uid://dmq4ymqs64b82" path="res://ai/tasks/cpu/is_in_range.gd" id="6_f8ddm"]
 [ext_resource type="Script" uid="uid://d3pcq43u0utv4" path="res://scripts/fighter/hurtbox.gd" id="6_f671e"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_wkveg"]
@@ -272,26 +273,237 @@ size = Vector2(37, 96)
 
 [sub_resource type="BlackboardPlan" id="BlackboardPlan_f8ddm"]
 
-[sub_resource type="BBNode" id="BBNode_f8ddm"]
-saved_value = NodePath("Sprite")
-resource_name = "Sprite"
+[sub_resource type="BTAction" id="BTAction_38nx2"]
+script = ExtResource("6_f8ddm")
 
-[sub_resource type="BTPlayAnimation" id="BTPlayAnimation_38nx2"]
-animation_player = SubResource("BBNode_f8ddm")
-animation_name = &"idle"
+[sub_resource type="BBNode" id="BBNode_boocs"]
+saved_value = NodePath("AnimationPlayer")
+resource_name = "AnimationPlayer"
 
-[sub_resource type="BTCooldown" id="BTCooldown_eoam7"]
-duration = 0.2
-children = [SubResource("BTPlayAnimation_38nx2")]
+[sub_resource type="BTPlayAnimation" id="BTPlayAnimation_f8ddm"]
+animation_player = SubResource("BBNode_boocs")
+animation_name = &"punch"
 
-[sub_resource type="BTSequence" id="BTSequence_nhbev"]
-children = [SubResource("BTCooldown_eoam7")]
+[sub_resource type="BTSequence" id="BTSequence_boocs"]
+custom_name = "Sequence - IDLE"
+children = [SubResource("BTPlayAnimation_f8ddm")]
+
+[sub_resource type="BTProbability" id="BTProbability_eoam7"]
+children = [SubResource("BTAction_38nx2"), SubResource("BTSequence_boocs")]
+
+[sub_resource type="BTSelector" id="BTSelector_f8ddm"]
+custom_name = "Selector - CPU"
+children = [SubResource("BTProbability_eoam7")]
 
 [sub_resource type="BehaviorTree" id="BehaviorTree_38nx2"]
 blackboard_plan = SubResource("BlackboardPlan_f8ddm")
-root_task = SubResource("BTSequence_nhbev")
+root_task = SubResource("BTSelector_f8ddm")
 
 [sub_resource type="BlackboardPlan" id="BlackboardPlan_eoam7"]
+
+[sub_resource type="Animation" id="Animation_boocs"]
+length = 0.53333336
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.13333334, 0.26666668, 0.4),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 1,
+"values": [0, 1, 2, 3]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Sprite:animation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": ["fall"]
+}
+
+[sub_resource type="Animation" id="Animation_f8ddm"]
+length = 0.4
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 1,
+"values": [0, 1, 2, 3]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Sprite:animation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": ["idle"]
+}
+
+[sub_resource type="Animation" id="Animation_38nx2"]
+length = 0.55
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.35, 0.45),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
+"update": 1,
+"values": [0, 1, 2, 3, 4]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Sprite:animation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": ["punch"]
+}
+
+[sub_resource type="Animation" id="Animation_eoam7"]
+length = 0.2
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.05, 0.1, 0.15),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 1,
+"values": [0, 1, 2, 3]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Sprite:animation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": ["stun"]
+}
+
+[sub_resource type="Animation" id="Animation_nhbev"]
+length = 0.6
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.13333334, 0.26666668, 0.4),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 1,
+"values": [0, 1, 2, 3]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Sprite:animation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": ["uppercut"]
+}
+
+[sub_resource type="Animation" id="Animation_g1l17"]
+length = 0.6666667
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.13333334, 0.26666668, 0.4, 0.53333336),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
+"update": 1,
+"values": [0, 1, 2, 3, 4]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Sprite:animation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": ["walk"]
+}
+
+[sub_resource type="Animation" id="Animation_3hsrd"]
+length = 1.2
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.2, 0.4, 0.6, 0.8, 1),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [0, 1, 2, 3, 4, 5]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Sprite:animation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": ["walk2"]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_at1f7"]
+_data = {
+&"fall": SubResource("Animation_boocs"),
+&"idle": SubResource("Animation_f8ddm"),
+&"punch": SubResource("Animation_38nx2"),
+&"stun": SubResource("Animation_eoam7"),
+&"uppercut": SubResource("Animation_nhbev"),
+&"walk": SubResource("Animation_g1l17"),
+&"walk2": SubResource("Animation_3hsrd")
+}
 
 [node name="CPU" type="CharacterBody2D"]
 
@@ -299,8 +511,7 @@ root_task = SubResource("BTSequence_nhbev")
 material = SubResource("ShaderMaterial_wkveg")
 position = Vector2(0, 64)
 sprite_frames = SubResource("SpriteFrames_4yys4")
-animation = &"walk2"
-autoplay = "idle"
+animation = &"fall"
 offset = Vector2(0, -64)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
@@ -325,3 +536,8 @@ debug_color = Color(0.135108, 0.646312, 0, 0.42)
 [node name="BTPlayer" type="BTPlayer" parent="."]
 behavior_tree = SubResource("BehaviorTree_38nx2")
 blackboard_plan = SubResource("BlackboardPlan_eoam7")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+&"": SubResource("AnimationLibrary_at1f7")
+}

@@ -1,6 +1,8 @@
 extends Control
 class_name Shop
 
+signal player_ready
+
 const SHOP_ITEM_SCENE = preload("uid://cl10ajuxf5cj8")
 
 @onready var gold_count: RichTextLabel = $PanelContainer/MarginContainer/VBoxContainer/GoldCount
@@ -9,6 +11,7 @@ const SHOP_ITEM_SCENE = preload("uid://cl10ajuxf5cj8")
 @export var fighter: Fighter
 
 func _ready() -> void:
+	hide()
 	refresh_shop()
 	fighter.money_changed.connect(_update_gold)
 	_update_gold(fighter.money)
@@ -25,7 +28,6 @@ func refresh_shop() -> void:
 		shop_item.buy_cost = item.buy_price
 		shop_item.reroll_cost = 2
 		shop_item.update_visuals()
-		print(shop_item)
 			
 
 func _update_gold(new_amount: int) -> void:
@@ -45,5 +47,20 @@ func _update_gold(new_amount: int) -> void:
 	t.tween_property(gold_count, "text", "[wave amp=15.0 freq=2.5.0 connected=0][color=gold]%sG" % new_amount, 0.2)
 
 func _on_continue_pressed() -> void:
+	fighter.is_ready = true
+	player_ready.emit()
 	hide()
-	refresh_shop()
+
+
+func _on_phase_changed(new_phase: BadStage.PHASES) -> void:
+	match new_phase:
+		BadStage.PHASES.FIGHT:
+			hide()
+		BadStage.PHASES.SHOP:
+			refresh_shop()
+			_update_gold(fighter.money)
+			show()
+		BadStage.PHASES.GAME_OVER:
+			hide()
+		BadStage.PHASES.NONE:
+			hide()
