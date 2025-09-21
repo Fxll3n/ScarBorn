@@ -6,6 +6,7 @@ static var visible_collisions: bool = false
 var enabled: bool = false
 var damage: int = 0
 var stun: int = 0
+var knockback_velocity: Vector2 = Vector2.ZERO
 
 
 func _draw() -> void:
@@ -22,16 +23,18 @@ func setup(pos: Vector2, size: Vector2):
 		collision_shape.shape.size = size
 	queue_redraw()
 
-func enable(dmg: int, stun_frames: int):
+func enable(dmg: int, stun_frames: int, knockback: Vector2):
 	enabled = true
 	damage = dmg
 	stun = stun_frames
+	knockback_velocity = knockback
 	queue_redraw()
 
 func disable():
 	enabled = false
 	damage = 0
 	stun = 0
+	knockback_velocity = Vector2.ZERO
 	queue_redraw()
 
 func _ready():

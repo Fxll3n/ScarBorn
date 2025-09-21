@@ -8,30 +8,25 @@ var items_by_rarity: Dictionary = {
 	"Metal": []
 }
 
-const ITEMS_FOLDER_PATH: String = "res://assets/resources/"
+const ITEM_PATHS: Array[String] = [
+	"res://assets/resources/BoxingGloves.tres",
+	"res://assets/resources/TestItem.tres",
+	"res://assets/resources/FireballStaff.tres",
+]
 
-func _ready() -> void:
+func _ready():
 	load_all_items()
 
-func load_all_items() -> void:
+func load_all_items():
 	items.clear()
 	items_by_name.clear()
 	
 	for rarity in items_by_rarity.keys():
 		items_by_rarity[rarity].clear()
 	
-	var dir = DirAccess.open(ITEMS_FOLDER_PATH)
-	if dir == null:
-		push_error("[ItemRegistry]: Failed to access items folder: " + ITEMS_FOLDER_PATH)
-		return
-	
-	dir.list_dir_begin()
-	var file_name = dir.get_next()
-	
-	while file_name != "":
-		if file_name.ends_with(".tres") or file_name.ends_with(".res"):
-			var full_path = ITEMS_FOLDER_PATH + file_name
-			var resource = load(full_path)
+	for item_path in ITEM_PATHS:
+		if ResourceLoader.exists(item_path):
+			var resource = load(item_path)
 			
 			if resource is Item:
 				var item = resource as Item
@@ -45,9 +40,9 @@ func load_all_items() -> void:
 				
 				print("[ItemRegistry]: Loaded item: %s (Rarity: %s)" % [item.name, item.rarity])
 			else:
-				push_warning("[ItemRegistry]: File %s is not a valid Item resource" % file_name)
-		
-		file_name = dir.get_next()
+				push_warning("[ItemRegistry]: File %s is not a valid Item resource" % item_path)
+		else:
+			push_warning("[ItemRegistry]: Item file not found: %s" % item_path)
 	
 	print("[ItemRegistry]: Loaded %d items total" % items.size())
 	print("- Plastic: %d items" % items_by_rarity["Plastic"].size())
@@ -108,10 +103,6 @@ func get_weighted_random_item() -> Item:
 	
 	return get_random_item()
 
-func reload_items() -> void:
-	print("[ItemRegistry]: Reloading items...")
-	load_all_items()
-
 func get_items_by_price_range(min_price: int, max_price: int) -> Array[Item]:
 	var filtered_items: Array[Item] = []
 	for item in items:
@@ -119,8 +110,16 @@ func get_items_by_price_range(min_price: int, max_price: int) -> Array[Item]:
 			filtered_items.append(item)
 	return filtered_items
 
-func debug_print_all_items() -> void:
+func debug_print_all_items():
 	print("\n=== ItemRegistry Debug ===")
 	for item in items:
 		print("%s | %s | %dG | %s" % [item.name, item.rarity, item.buy_price, item.description.substr(0, 50)])
 	print("========================\n")
+
+func add_item_path(path: String):
+	if path not in ITEM_PATHS:
+		ITEM_PATHS.append(path)
+
+func reload_items():
+	print("[ItemRegistry]: Reloading items...")
+	load_all_items()

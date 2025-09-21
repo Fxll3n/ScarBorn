@@ -13,19 +13,7 @@ recovery = 12
 stun = 11
 damage = 10
 hitbox_data = Rect2(-45, -26, 100, 30)
-knockback_direction = Vector2(0, 0)
-metadata/_custom_type_script = "uid://bj5d01jb3amg"
-
-[sub_resource type="Resource" id="Resource_qrkaw"]
-script = ExtResource("3_hnljn")
-animation_name = &"uppercut"
-startup = 16
-active = 8
-recovery = 12
-stun = 30
-damage = 15
-hitbox_data = Rect2(-30, -30, 20, 60)
-knockback_direction = Vector2(0, 0)
+knockback_direction = Vector2(200, 0)
 metadata/_custom_type_script = "uid://bj5d01jb3amg"
 
 [sub_resource type="Resource" id="Resource_hnljn"]
@@ -37,7 +25,19 @@ recovery = 12
 stun = 30
 damage = 15
 hitbox_data = Rect2(-30, -30, 20, 60)
-knockback_direction = Vector2(0, 0)
+knockback_direction = Vector2(200, -600)
+metadata/_custom_type_script = "uid://bj5d01jb3amg"
+
+[sub_resource type="Resource" id="Resource_qrkaw"]
+script = ExtResource("3_hnljn")
+animation_name = &"uppercut"
+startup = 16
+active = 8
+recovery = 12
+stun = 30
+damage = 15
+hitbox_data = Rect2(-30, -30, 20, 60)
+knockback_direction = Vector2(150, -450)
 metadata/_custom_type_script = "uid://bj5d01jb3amg"
 
 [resource]
@@ -48,7 +48,6 @@ description = "...Regular boxing gloves...
 ...A little worn out if anything..."
 buy_price = 10
 sell_price = 7
-rarity = "Plastic"
 variants = Dictionary[String, ExtResource("3_hnljn")]({
 "neutral_ground": SubResource("Resource_tdh0g"),
 "up_special_air": SubResource("Resource_hnljn"),

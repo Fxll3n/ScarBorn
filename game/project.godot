@@ -13,9 +13,12 @@ config_version=5
 config/name="ScarBorn"
 run/main_scene="uid://br7baqjad1uqs"
 config/features=PackedStringArray("4.5", "GL Compatibility")
+run/max_fps=60
 boot_splash/bg_color=Color(0, 0, 0, 1)
+boot_splash/fullsize=false
 boot_splash/image="uid://c1tqddh4vim67"
 config/icon="uid://c1tqddh4vim67"
+boot_splash/minimum_display_time=4000
 scenes/loading_scene_path="res://addons/yet_another_scene_manager/Scenes/Loading.tscn"
 scenes/error_scene_path="res://addons/yet_another_scene_manager/Scenes/Error.tscn"
 

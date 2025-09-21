@@ -55,10 +55,11 @@ func _on_continue_pressed() -> void:
 func _on_phase_changed(new_phase: BadStage.PHASES) -> void:
 	match new_phase:
 		BadStage.PHASES.FIGHT:
+			_update_gold(fighter.money)
 			hide()
 		BadStage.PHASES.SHOP:
-			refresh_shop()
 			_update_gold(fighter.money)
+			refresh_shop()
 			show()
 		BadStage.PHASES.GAME_OVER:
 			hide()

@@ -31,19 +31,22 @@ func _update_phase():
 		ACTION_PHASE.STARTUP:
 			if fighter.action_frame >= move.startup:
 				current_phase = ACTION_PHASE.ACTIVE
-				fighter.hitbox.enable(move.damage, move.stun)
+				fighter.hitbox.disable()
 		ACTION_PHASE.ACTIVE:
 			if fighter.action_frame >= move.startup + move.active:
 				current_phase = ACTION_PHASE.RECOVERY
-				fighter.hitbox.disable()
+				fighter.hitbox.enable(move.damage, move.stun, move.knockback_direction)
 		ACTION_PHASE.RECOVERY:
 			if fighter.action_frame >= move.startup + move.active + move.recovery:
 				transition_to("idle")
+				fighter.hitbox.disable()
 
 func _setup_hitbox():
 	var move = fighter.current_move
 	var pos = move.hitbox_data.position
+	var knockback = move.knockback_direction
 	var flipped_pos = Vector2(-pos.x if not fighter.facing_right else pos.x, pos.y)
+	var fliped_knockback = Vector2(-knockback.x if fighter.facing_right else knockback.x, knockback.y)
 	
 	fighter.hitbox.setup(flipped_pos, move.hitbox_data.size)
-	fighter.hitbox.enable(move.damage, move.stun)
+	fighter.hitbox.enable(move.damage, move.stun, fliped_knockback)

@@ -168,11 +168,12 @@ func _update_facing() -> void:
 		facing_right = dir.x < 0
 		sprite.flip_h = not facing_right
 
-func _on_hurt(damage: int, stun: int) -> void:
+func _on_hurt(damage: int, stun: int, knockback: Vector2) -> void:
 	SoundManager.play_sound_with_pitch(HIT_SOUNDS.pick_random(), randf_range(0.8, 1.2))
 	#ScreenEffects.hitstop(6)
 	#ScreenEffects.screenshake(8.0, 0.3)
 	take_damage(damage, stun)
+	velocity = knockback
 	
 	if self_heal_timer:
 		self_heal_timer.start(3)

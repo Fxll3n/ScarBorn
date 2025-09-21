@@ -1,7 +1,7 @@
 class_name HurtBox
 extends Area2D
 
-signal hit(damage: int, stun: int)
+signal hit(damage: int, stun: int, knockback: Vector2)
 @onready var collision_shape: CollisionShape2D = $CollisionShape2D
 static var visible_collisions: bool = false
 
@@ -23,4 +23,4 @@ func _on_area_entered(area: Area2D) -> void:
 			return
 		if area.owner == self.owner: 
 			return
-		hit.emit(area.damage, area.stun)
+		hit.emit(area.damage, area.stun, area.knockback_velocity)
