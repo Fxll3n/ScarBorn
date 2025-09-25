@@ -1,9 +1,9 @@
 [gd_scene load_steps=5 format=3 uid="uid://hh0sw1g7upfc"]
 
-[ext_resource type="Script" path="res://addons/scene_manager/scene_item.gd" id="2"]
-[ext_resource type="Texture2D" uid="uid://brxxaey30q7uk" path="res://addons/scene_manager/icons/GuiTabMenuHl.svg" id="3"]
-[ext_resource type="Script" path="res://addons/scene_manager/popup_button.gd" id="3_nwus0"]
-[ext_resource type="Texture2D" uid="uid://b4xi5nvjb3rhr" path="res://addons/scene_manager/icons/PlayOverlay.png" id="4_pt2e1"]
+[ext_resource type="Script" uid="uid://d1atv7j4c6pgi" path="res://addons/scene_manager/scene_item.gd" id="2"]
+[ext_resource type="Texture2D" uid="uid://ck8l1aecn1vol" path="res://addons/scene_manager/icons/GuiTabMenuHl.svg" id="3"]
+[ext_resource type="Script" uid="uid://dnul13qi44pqc" path="res://addons/scene_manager/popup_button.gd" id="3_nwus0"]
+[ext_resource type="Texture2D" uid="uid://b4h2rmtrsl617" path="res://addons/scene_manager/icons/PlayOverlay.png" id="4_pt2e1"]
 
 [node name="item" type="HBoxContainer"]
 offset_right = 280.0
@@ -33,6 +33,7 @@ layout_mode = 2
 icon = ExtResource("4_pt2e1")
 
 [node name="popup_menu" type="PopupMenu" parent="."]
+oversampling_override = 1.0
 size = Vector2i(100, 28)
 visible = true
 hide_on_item_selection = false

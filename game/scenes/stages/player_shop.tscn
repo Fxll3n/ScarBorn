@@ -1,7 +1,6 @@
-[gd_scene load_steps=3 format=3 uid="uid://bpavaxq77cbec"]
+[gd_scene load_steps=2 format=3 uid="uid://bpavaxq77cbec"]
 
 [ext_resource type="Script" uid="uid://cvvx6x0dh2okf" path="res://scripts/shop.gd" id="1_i1bua"]
-[ext_resource type="PackedScene" uid="uid://cl10ajuxf5cj8" path="res://scenes/actors/shop_item.tscn" id="2_i1bua"]
 
 [node name="PlayerShop" type="Control"]
 custom_minimum_size = Vector2(200, 225)
@@ -65,14 +64,5 @@ layout_mode = 2
 size_flags_vertical = 3
 theme_override_constants/separation = 10
 alignment = 1
-
-[node name="ShopItem" parent="PanelContainer/MarginContainer/VBoxContainer/Items" instance=ExtResource("2_i1bua")]
-layout_mode = 2
-
-[node name="ShopItem2" parent="PanelContainer/MarginContainer/VBoxContainer/Items" instance=ExtResource("2_i1bua")]
-layout_mode = 2
-
-[node name="ShopItem3" parent="PanelContainer/MarginContainer/VBoxContainer/Items" instance=ExtResource("2_i1bua")]
-layout_mode = 2
 
 [connection signal="pressed" from="PanelContainer/MarginContainer/VBoxContainer/Continue" to="." method="_on_continue_pressed"]

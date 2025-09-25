@@ -1,4 +1,4 @@
-[gd_scene load_steps=49 format=3 uid="uid://cahwii8wr1od4"]
+[gd_scene load_steps=51 format=3 uid="uid://cahwii8wr1od4"]
 
 [ext_resource type="Script" uid="uid://r1faf1bbc6i2" path="res://scripts/fighter/fighter.gd" id="1_7wueq"]
 [ext_resource type="Texture2D" uid="uid://f8w7jgu2su2p" path="res://assets/art/Ryu.png" id="2_8y416"]
@@ -6,14 +6,16 @@
 [ext_resource type="Script" uid="uid://dlyo8ra4hychi" path="res://scripts/fighter/hitbox.gd" id="2_ru62r"]
 [ext_resource type="Script" uid="uid://d3pcq43u0utv4" path="res://scripts/fighter/hurtbox.gd" id="3_ktjr4"]
 [ext_resource type="Shader" uid="uid://dpgwyo572ca" path="res://scripts/resources/shaders/anooying_color_shader.gdshader" id="3_ypltb"]
-[ext_resource type="Script" uid="uid://2espvt53y086" path="res://addons/uState/scripts/state_machine.gd" id="5_8y416"]
 [ext_resource type="Texture2D" uid="uid://v6h377ogui80" path="res://assets/art/walk_sheet.png" id="5_nmlhc"]
-[ext_resource type="Script" uid="uid://es10xfhgsdcy" path="res://scripts/fighter/states/idle.gd" id="6_7860b"]
-[ext_resource type="Script" uid="uid://mwj0wy8qp7jn" path="res://scripts/fighter/states/walk.gd" id="7_wl55n"]
-[ext_resource type="Script" uid="uid://dkhthe16lrdpg" path="res://scripts/fighter/states/jump.gd" id="7_xx81n"]
-[ext_resource type="Script" uid="uid://bxejda5k5vojg" path="res://scripts/fighter/states/action.gd" id="8_0w4p8"]
-[ext_resource type="Script" uid="uid://bxyflkpkocsbv" path="res://scripts/fighter/states/fall.gd" id="9_kggx2"]
-[ext_resource type="Script" uid="uid://c5arwk14jsc3h" path="res://scripts/fighter/states/stun.gd" id="11_kggx2"]
+[ext_resource type="Script" uid="uid://es10xfhgsdcy" path="res://scripts/fighter/states/idle.gd" id="8_c4rn8"]
+[ext_resource type="Script" uid="uid://c5arwk14jsc3h" path="res://scripts/fighter/states/stun.gd" id="9_ypltb"]
+[ext_resource type="Script" uid="uid://mwj0wy8qp7jn" path="res://scripts/fighter/states/walk.gd" id="10_nmlhc"]
+[ext_resource type="Script" uid="uid://dkhthe16lrdpg" path="res://scripts/fighter/states/jump.gd" id="11_h5w3c"]
+[ext_resource type="Script" uid="uid://bxyflkpkocsbv" path="res://scripts/fighter/states/fall.gd" id="12_0878f"]
+[ext_resource type="Script" uid="uid://be5r5nxja8b3r" path="res://scripts/action.gd" id="13_ypltb"]
+[ext_resource type="Script" uid="uid://ci8scs0q0h0dk" path="res://scripts/startup.gd" id="14_0878f"]
+[ext_resource type="Script" uid="uid://c6drqtmmyx4pt" path="res://scripts/active.gd" id="15_dferu"]
+[ext_resource type="Script" uid="uid://b678c03j4kx52" path="res://scripts/recovery.gd" id="16_t62v4"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_nmlhc"]
 shader = ExtResource("3_ypltb")
@@ -284,6 +286,9 @@ z_index = 10
 script = ExtResource("1_7wueq")
 metadata/_custom_type_script = "uid://r1faf1bbc6i2"
 
+[node name="VelDir" type="RayCast2D" parent="."]
+collide_with_bodies = false
+
 [node name="StateLabel" type="Label" parent="."]
 anchors_preset = 5
 anchor_left = 0.5
@@ -324,31 +329,31 @@ metadata/_custom_type_script = "uid://d3pcq43u0utv4"
 shape = SubResource("RectangleShape2D_ktjr4")
 debug_color = Color(0.135108, 0.646312, 0, 0.42)
 
-[node name="StateMachine" type="Node" parent="." node_paths=PackedStringArray("initial_state")]
-script = ExtResource("5_8y416")
-initial_state = NodePath("Idle")
-metadata/_custom_type_script = "uid://2espvt53y086"
+[node name="LimboHSM" type="LimboHSM" parent="."]
 
-[node name="Idle" type="Node" parent="StateMachine"]
-script = ExtResource("6_7860b")
-metadata/_custom_type_script = "uid://c65wob82ajx7b"
+[node name="Idle" type="LimboState" parent="LimboHSM"]
+script = ExtResource("8_c4rn8")
 
-[node name="Walk" type="Node" parent="StateMachine"]
-script = ExtResource("7_wl55n")
-metadata/_custom_type_script = "uid://c65wob82ajx7b"
+[node name="Stun" type="LimboState" parent="LimboHSM"]
+script = ExtResource("9_ypltb")
 
-[node name="Jump" type="Node" parent="StateMachine"]
-script = ExtResource("7_xx81n")
-metadata/_custom_type_script = "uid://c65wob82ajx7b"
+[node name="Walk" type="LimboState" parent="LimboHSM"]
+script = ExtResource("10_nmlhc")
 
-[node name="Fall" type="Node" parent="StateMachine"]
-script = ExtResource("9_kggx2")
-metadata/_custom_type_script = "uid://c65wob82ajx7b"
+[node name="Jump" type="LimboState" parent="LimboHSM"]
+script = ExtResource("11_h5w3c")
 
-[node name="Action" type="Node" parent="StateMachine"]
-script = ExtResource("8_0w4p8")
-metadata/_custom_type_script = "uid://c2apymdd42j6d"
+[node name="Fall" type="LimboState" parent="LimboHSM"]
+script = ExtResource("12_0878f")
 
-[node name="Stun" type="Node" parent="StateMachine"]
-script = ExtResource("11_kggx2")
-metadata/_custom_type_script = "uid://c65wob82ajx7b"
+[node name="Action" type="LimboHSM" parent="LimboHSM"]
+script = ExtResource("13_ypltb")
+
+[node name="Startup" type="LimboState" parent="LimboHSM/Action"]
+script = ExtResource("14_0878f")
+
+[node name="Active" type="LimboState" parent="LimboHSM/Action"]
+script = ExtResource("15_dferu")
+
+[node name="Recovery" type="LimboState" parent="LimboHSM/Action"]
+script = ExtResource("16_t62v4")

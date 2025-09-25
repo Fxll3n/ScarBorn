@@ -5,6 +5,7 @@
 [sub_resource type="Theme" id="Theme_1xn0x"]
 
 [node name="ApiKeyPrompt" type="PopupPanel"]
+oversampling_override = 1.0
 title = "API key configuration"
 initial_position = 1
 size = Vector2i(350, 100)

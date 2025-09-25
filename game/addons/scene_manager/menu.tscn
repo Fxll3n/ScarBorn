@@ -1,12 +1,13 @@
-[gd_scene load_steps=8 format=3 uid="uid://crnf0w0s44hxx"]
+[gd_scene load_steps=9 format=3 uid="uid://crnf0w0s44hxx"]
 
-[ext_resource type="PackedScene" path="res://addons/scene_manager/label.tscn" id="2"]
-[ext_resource type="Texture2D" uid="uid://bt1mtu3gbmwqc" path="res://addons/scene_manager/icons/FileDialog.svg" id="3"]
-[ext_resource type="Texture2D" uid="uid://jsditrvsfs5h" path="res://addons/scene_manager/icons/Reload.svg" id="5_2r30m"]
-[ext_resource type="Texture2D" uid="uid://briccm8yhbi21" path="res://addons/scene_manager/icons/Save.svg" id="5_yw87d"]
-[ext_resource type="Script" path="res://addons/scene_manager/manager.gd" id="6"]
-[ext_resource type="Texture2D" uid="uid://db46q6hma7y7o" path="res://addons/scene_manager/icons/FolderActive.svg" id="7_3r2fd"]
-[ext_resource type="Texture2D" uid="uid://cnhtsuf78gsy7" path="res://addons/scene_manager/icons/GuiChecked.svg" id="7_d04a5"]
+[ext_resource type="PackedScene" uid="uid://d2lqv1lvf5sav" path="res://addons/scene_manager/label.tscn" id="2"]
+[ext_resource type="Texture2D" uid="uid://dy33kgb52pfej" path="res://addons/scene_manager/icons/FileDialog.svg" id="3"]
+[ext_resource type="Texture2D" uid="uid://dn2xlrae5ira" path="res://addons/scene_manager/icons/GuiCheckedDisabled.svg" id="4_lsoc0"]
+[ext_resource type="Texture2D" uid="uid://bflvv34xysghf" path="res://addons/scene_manager/icons/Reload.svg" id="5_2r30m"]
+[ext_resource type="Texture2D" uid="uid://njdvhhdtl6nd" path="res://addons/scene_manager/icons/Save.svg" id="5_yw87d"]
+[ext_resource type="Script" uid="uid://cp2mlithq1quy" path="res://addons/scene_manager/manager.gd" id="6"]
+[ext_resource type="Texture2D" uid="uid://bjjjb4ihwjko0" path="res://addons/scene_manager/icons/FolderActive.svg" id="7_3r2fd"]
+[ext_resource type="Texture2D" uid="uid://ba57mf4ehkcey" path="res://addons/scene_manager/icons/GuiChecked.svg" id="7_d04a5"]
 
 [node name="root_container" type="MarginContainer"]
 anchors_preset = 15
@@ -27,6 +28,7 @@ size_flags_vertical = 3
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
+current_tab = 0
 drag_to_rearrange_enabled = true
 
 [node name="add_category_container" type="MarginContainer" parent="main_container"]
@@ -60,6 +62,7 @@ text = "+ List"
 layout_mode = 2
 
 [node name="ignores" type="VBoxContainer" parent="main_container"]
+visible = false
 layout_mode = 2
 size_flags_vertical = 3
 size_flags_stretch_ratio = 0.3
@@ -91,6 +94,7 @@ size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="ignores_panel" type="VBoxContainer" parent="main_container/ignores"]
+visible = false
 layout_mode = 2
 
 [node name="ignore_interactive_section_container" type="MarginContainer" parent="main_container/ignores/ignores_panel"]
@@ -132,7 +136,7 @@ text = "Add"
 [node name="hide" type="Button" parent="main_container/ignores/ignores_panel/ignore_interactive_section_container/add_ignore_container/dialog_add_ignore_container2"]
 layout_mode = 2
 focus_mode = 0
-icon = ExtResource("7_d04a5")
+icon = ExtResource("4_lsoc0")
 metadata/enabled = true
 
 [node name="separator" type="HSeparator" parent="main_container/ignores/ignores_panel"]
@@ -171,10 +175,9 @@ text = "Save"
 icon = ExtResource("5_yw87d")
 
 [node name="hide_unhide" type="Button" parent="main_container/interactive_section_container/margin_refresh_save_container/refresh_save_container/save_refresh_container/save_container"]
-visible = false
 layout_mode = 2
 focus_mode = 0
-icon = ExtResource("7_d04a5")
+icon = ExtResource("4_lsoc0")
 metadata/enabled = true
 
 [node name="auto_save_refresh_container" type="HBoxContainer" parent="main_container/interactive_section_container/margin_refresh_save_container/refresh_save_container"]

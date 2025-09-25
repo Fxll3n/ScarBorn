@@ -103,7 +103,8 @@ func damage_fighter(fighter: String, amount: int, stun_frames: int) -> void:
 		print("Player '%s' not found" % fighter)
 		return
 	
-	fighter_node.take_damage(amount, stun_frames)
+	fighter_node.damage(amount)
+	fighter_node.apply_stun(stun_frames)
 
 func game_speed(speed: float = 1.0) -> void:
 	Engine.time_scale = speed

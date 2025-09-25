@@ -1,25 +1,24 @@
-extends FighterState
+extends LimboState
 
 var direction: Vector2 = Vector2.ZERO
 
-func enter() -> void:
+func _enter() -> void:
 	SoundManager.play_sound(preload("res://assets/audio/3CH.wav"))
-	fighter.velocity.y = Fighter.JUMP_VELOCITY
-	direction = fighter.get_input_direction()
+	agent.velocity.y = agent.jump_velocity
+	agent.jumps_count += 1
+	direction = agent.get_input_direction()
 
-func update(delta: float) -> void:
-	direction = fighter.get_input_direction()
+func _update(delta: float) -> void:
+	direction = agent.get_input_direction()
 	
-	if fighter.is_on_floor():
-		transition_to("idle")
-	elif fighter.velocity.y > 0:
-		transition_to("fall")
-		
-
-func physics_update(delta: float):
+	if agent.is_on_floor() or agent.velocity.y > 0:
+		dispatch(EVENT_FINISHED)
+	elif Input.is_action_just_pressed("p%s_jump" % agent.id) and agent._can_jump():
+		dispatch(&"jump")
+	
 	if direction.x != 0:
-		fighter.velocity.x = move_toward(fighter.velocity.x, Fighter.WALK_SPEED * direction.x, Fighter.WALK_SPEED * delta)
+		agent.velocity.x = move_toward(agent.velocity.x, agent.walk_speed * direction.x, agent.walk_speed * delta)
 	else:
-		fighter.velocity.x = move_toward(fighter.velocity.x, 0, Fighter.WALK_SPEED * delta)
+		agent.velocity.x = move_toward(agent.velocity.x, 0, agent.walk_speed * delta)
 	
-	fighter.velocity.y = move_toward(fighter.velocity.y, Fighter.GRAVITY, Fighter.GRAVITY * delta)
+	agent.velocity.y = move_toward(agent.velocity.y, agent.gravity, agent.gravity * delta)

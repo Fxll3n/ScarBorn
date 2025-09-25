@@ -121,10 +121,11 @@ fighter = NodePath("../../../../Fighters/Fighter2")
 [node name="Fighter1" parent="Fighters" instance=ExtResource("5_lw7l1")]
 z_index = 11
 position = Vector2(-262, 39)
+id = 1
 
 [node name="Fighter2" parent="Fighters" instance=ExtResource("5_lw7l1")]
 position = Vector2(264, 39)
-player_id = -2
+id = 2
 
 [node name="Environment" type="Node" parent="."]
 

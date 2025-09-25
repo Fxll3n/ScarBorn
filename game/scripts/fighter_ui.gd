@@ -15,7 +15,7 @@ func _ready() -> void:
 		return
 		
 	fighter.health_changed.connect(_on_health_changed)
-	fighter.inventory_updated.connect(_on_inventory_updated)
+	fighter.inventory_changed.connect(_on_inventory_changed)
 	fighter_name.text = fighter.name
 
 func _on_health_changed(current: int, maximum: int) -> void:
@@ -30,7 +30,7 @@ func _clear_slots() -> void:
 	for node in move_container.get_children():
 		node.queue_free()
 
-func _on_inventory_updated(new_inv: Array[Item]) -> void:
+func _on_inventory_changed(new_inv: Array[Item]) -> void:
 	print("Inv Updated - Array size: %d" % new_inv.size())
 	_clear_slots()
 	var i := 0

@@ -47,7 +47,32 @@ corner_radius_bottom_left = 10
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_obaj6"]
 
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_4b76l"]
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_fsxik"]
+content_margin_left = 10.0
+content_margin_top = 10.0
+content_margin_right = 10.0
+content_margin_bottom = 10.0
+bg_color = Color(0.129412, 0.407843, 0.337255, 1)
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_width_bottom = 4
+border_color = Color(0.227451, 0.72549, 0.603922, 1)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_gci88"]
+content_margin_left = 10.0
+content_margin_top = 10.0
+content_margin_right = 10.0
+content_margin_bottom = 10.0
+bg_color = Color(0.180392, 0.576471, 0.482353, 1)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_yh38y"]
 content_margin_left = 10.0
@@ -65,41 +90,14 @@ corner_radius_top_right = 10
 corner_radius_bottom_right = 10
 corner_radius_bottom_left = 10
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_gci88"]
-content_margin_left = 10.0
-content_margin_top = 10.0
-content_margin_right = 10.0
-content_margin_bottom = 10.0
-bg_color = Color(0.180392, 0.576471, 0.482353, 1)
-corner_radius_top_left = 10
-corner_radius_top_right = 10
-corner_radius_bottom_right = 10
-corner_radius_bottom_left = 10
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_fsxik"]
-content_margin_left = 10.0
-content_margin_top = 10.0
-content_margin_right = 10.0
-content_margin_bottom = 10.0
-bg_color = Color(0.129412, 0.407843, 0.337255, 1)
-border_width_left = 4
-border_width_top = 4
-border_width_right = 4
-border_width_bottom = 4
-border_color = Color(0.227451, 0.72549, 0.603922, 1)
-corner_radius_top_left = 10
-corner_radius_top_right = 10
-corner_radius_bottom_right = 10
-corner_radius_bottom_left = 10
-
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_g5wua"]
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_4b76l"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_x4bx8"]
 
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_840sd"]
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_g5wua"]
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ja3vm"]
-bg_color = Color(0.53, 0.1643, 0.255725, 1)
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_agqdu"]
+bg_color = Color(0.72549, 0.227451, 0.34902, 1)
 border_width_left = 2
 border_width_top = 2
 border_width_right = 2
@@ -122,8 +120,8 @@ corner_radius_top_right = 10
 corner_radius_bottom_right = 10
 corner_radius_bottom_left = 10
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_agqdu"]
-bg_color = Color(0.72549, 0.227451, 0.34902, 1)
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ja3vm"]
+bg_color = Color(0.53, 0.1643, 0.255725, 1)
 border_width_left = 2
 border_width_top = 2
 border_width_right = 2
@@ -134,7 +132,19 @@ corner_radius_top_right = 10
 corner_radius_bottom_right = 10
 corner_radius_bottom_left = 10
 
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_w002y"]
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_840sd"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_q2svd"]
+content_margin_left = 8.0
+content_margin_top = 4.0
+content_margin_right = 8.0
+content_margin_bottom = 4.0
+bg_color = Color(0.0784314, 0.109804, 0.129412, 1)
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.227451, 0.72549, 0.603922, 1)
+corner_radius_top_right = 8
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_kq7gm"]
 content_margin_left = 8.0
@@ -158,17 +168,7 @@ border_width_right = 2
 border_width_bottom = 2
 corner_radius_top_right = 6
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_q2svd"]
-content_margin_left = 8.0
-content_margin_top = 4.0
-content_margin_right = 8.0
-content_margin_bottom = 4.0
-bg_color = Color(0.0784314, 0.109804, 0.129412, 1)
-border_width_top = 2
-border_width_right = 2
-border_width_bottom = 2
-border_color = Color(0.227451, 0.72549, 0.603922, 1)
-corner_radius_top_right = 8
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_w002y"]
 
 [node name="ViewfinderPanel" type="Control"]
 clip_contents = true
@@ -211,7 +211,7 @@ unique_name_in_owner = true
 handle_input_locally = false
 canvas_item_default_texture_filter = 0
 gui_disable_input = true
-size = Vector2i(1152, 648)
+size = Vector2i(640, 360)
 size_2d_override_stretch = true
 render_target_update_mode = 4
 
@@ -414,8 +414,8 @@ theme_override_fonts/normal_font = ExtResource("5_4jhax")
 theme_override_fonts/bold_font = ExtResource("3_li3i3")
 theme_override_font_sizes/normal_font_size = 24
 theme_override_font_sizes/bold_font_size = 24
-theme_override_styles/focus = SubResource("StyleBoxEmpty_obaj6")
 theme_override_styles/normal = SubResource("StyleBoxEmpty_iho1a")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_obaj6")
 bbcode_enabled = true
 text = "[center][b]NodeType[/b] Description [/center]"
 fit_content = true
@@ -429,10 +429,10 @@ focus_mode = 0
 theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_fonts/font = ExtResource("3_li3i3")
 theme_override_font_sizes/font_size = 24
-theme_override_styles/focus = SubResource("StyleBoxEmpty_4b76l")
-theme_override_styles/hover = SubResource("StyleBoxFlat_yh38y")
-theme_override_styles/pressed = SubResource("StyleBoxFlat_gci88")
 theme_override_styles/normal = SubResource("StyleBoxFlat_fsxik")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_gci88")
+theme_override_styles/hover = SubResource("StyleBoxFlat_yh38y")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_4b76l")
 
 [node name="AddNodeTypeText" type="RichTextLabel" parent="EmptyStateControl/VBoxContainer/AddNodeButton"]
 unique_name_in_owner = true
@@ -450,8 +450,8 @@ theme_override_fonts/normal_font = ExtResource("5_4jhax")
 theme_override_fonts/bold_font = ExtResource("3_li3i3")
 theme_override_font_sizes/normal_font_size = 24
 theme_override_font_sizes/bold_font_size = 24
-theme_override_styles/focus = SubResource("StyleBoxEmpty_g5wua")
 theme_override_styles/normal = SubResource("StyleBoxEmpty_x4bx8")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_g5wua")
 bbcode_enabled = true
 text = "[center]Add [img=32]res://addons/phantom_camera/icons/viewfinder/Camera3DIcon.svg[/img] [b]{NodeType}[/b][/center]"
 scroll_active = false
@@ -465,10 +465,10 @@ offset_top = 5.0
 offset_right = 165.0
 offset_bottom = 57.0
 mouse_default_cursor_shape = 2
-theme_override_styles/focus = SubResource("StyleBoxEmpty_840sd")
-theme_override_styles/hover = SubResource("StyleBoxFlat_ja3vm")
-theme_override_styles/pressed = SubResource("StyleBoxFlat_mk273")
 theme_override_styles/normal = SubResource("StyleBoxFlat_agqdu")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_mk273")
+theme_override_styles/hover = SubResource("StyleBoxFlat_ja3vm")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_840sd")
 metadata/_edit_lock_ = true
 
 [node name="PriorityOverrideIcon" type="TextureRect" parent="PriorityOverrideButton"]
@@ -535,13 +535,13 @@ unique_name_in_owner = true
 custom_minimum_size = Vector2(40, 40)
 layout_mode = 2
 size_flags_horizontal = 0
-theme_override_colors/icon_hover_pressed_color = Color(0.0784314, 0.109804, 0.129412, 1)
 theme_override_colors/icon_hover_color = Color(0.0784314, 0.109804, 0.129412, 1)
-theme_override_styles/focus = SubResource("StyleBoxEmpty_w002y")
-theme_override_styles/hover_pressed = SubResource("StyleBoxFlat_kq7gm")
-theme_override_styles/hover = SubResource("StyleBoxFlat_ynag5")
-theme_override_styles/pressed = SubResource("StyleBoxFlat_kq7gm")
+theme_override_colors/icon_hover_pressed_color = Color(0.0784314, 0.109804, 0.129412, 1)
 theme_override_styles/normal = SubResource("StyleBoxFlat_q2svd")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_kq7gm")
+theme_override_styles/hover = SubResource("StyleBoxFlat_ynag5")
+theme_override_styles/hover_pressed = SubResource("StyleBoxFlat_kq7gm")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_w002y")
 icon = ExtResource("4_lcg1p")
 expand_icon = true
 

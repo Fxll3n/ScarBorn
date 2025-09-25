@@ -2,16 +2,10 @@ class_name Fighter
 extends CharacterBody2D
 
 signal died
-signal health_changed(current: int, maximum: int)
-signal inventory_updated(updated_inventory: Array[Item])
-signal used_item(slot: int, move_cooldown: int)
-signal money_changed(new_amount: int)
+signal health_changed(new_health: int)
+signal money_changed(old_amount: int, new_amount: int)
+signal inventory_changed(new_inventory: Array[Item])
 
-const MAX_HEALTH = 100
-const WALK_SPEED = 200.0
-const JUMP_VELOCITY = -400.0
-const FRICTION = 600.0
-const GRAVITY = 980.0
 const HIT_SOUNDS = [
 	preload("res://assets/audio/2AH.wav"),
 	preload("res://assets/audio/2BH.wav"),
@@ -20,163 +14,116 @@ const HIT_SOUNDS = [
 	preload("res://assets/audio/2EH.wav")
 ]
 
+@export_category("Info")
+@export var id: int = 0
+@export_range(0, 300, 1, "suffix:hp") var max_health: int = 100
+@export_range(0, 2, 1, "suffix:jumps") var max_jumps: int = 0
+@export var inventory: Array[Item] = []
+@export_category("Constants")
+@export var friction: float = 400
+@export var walk_speed: float = 200
+@export var jump_velocity: float = -400
+
 @onready var sprite: AnimatedSprite2D = $Sprite
+@onready var state_label: Label = $StateLabel
+@onready var vel_dir: RayCast2D = $VelDir
 @onready var hitbox: HitBox = $Hitbox
 @onready var hurtbox: HurtBox = $Hurtbox
-@onready var state_machine: uMachine = $StateMachine
-@onready var self_heal_timer: Timer = Timer.new()
 
-@export var player_id: int = -1
-var input: DeviceInput
-var health: int = MAX_HEALTH
-var inventory: Array[Item] = []
-var facing_right: bool = true
-var money: int = 10
+@onready var hsm: LimboHSM = $LimboHSM
+@onready var stun_state: LimboState = $LimboHSM/Stun
+@onready var idle_state: LimboState = $LimboHSM/Idle
+@onready var walk_state: LimboState = $LimboHSM/Walk
+@onready var jump_state: LimboState = $LimboHSM/Jump
+@onready var fall_state: LimboState = $LimboHSM/Fall
+@onready var action_hsm: LimboHSM = $LimboHSM/Action
 
-var current_move: MoveData
-var action_frame: int = 0
-var stun_duration: int = 0
-var max_jumps: int = 2
-var current_jumps: int = 0
+@onready var gravity: float = ProjectSettings.get_setting("physics/2d/default_gravity")
+
+
+var input_direction: Vector2 = Vector2.ZERO
+var current_move: MoveData = null
+
+var current_health: int = max_health
+var money: int = 0
+var jumps_count: int = 0
+var i_frames: int = 0
+var stun_frames: int = 0
 var lose_streak: int = 0
-var is_ready: bool = false
+var win_streak: int = 0
 
 func _ready() -> void:
-	if player_id <= -2:
-		add_child(self_heal_timer)
-		self_heal_timer.one_shot = true
-		self_heal_timer.timeout.connect(_on_heal_timeout)
-	
-	set_player_id(player_id)
-	_initialize_systems()
-	_load_default_items()
+	_initilize_hsm()
+
+func _process(delta: float) -> void:
+	if hsm.get_active_state() == null:
+		return
+	state_label.text = hsm.get_active_state().name
 
 func _physics_process(delta: float) -> void:
-	_handle_input()
-	_update_facing()
 	move_and_slide()
 
-func set_player_id(id: int) -> void:
-	player_id = id
-	input = DeviceInput.new(id)
-
-func take_damage(amount: int, stun_frames: int = 0) -> void:
-	health = max(0, health - amount)
-	health_changed.emit(health, MAX_HEALTH)
+func _initilize_hsm() -> void:
+	#region Setup
+	hsm.initialize(self)
+	hsm.set_active(true)
+	hsm.change_active_state(idle_state)
 	
-	if health <= 0:
-		state_machine.change_state("dead")
+	hsm.blackboard.bind_var_to_property("current_move", self, "current_move", true)
+	hsm.blackboard.bind_var_to_property("inventory", self, "inventory", true)
+	hsm.blackboard.bind_var_to_property("hitbox", self, "hitbox", true)
+	hsm.blackboard.bind_var_to_property("hurtbox", self, "hurtbox", true)
+	hsm.blackboard.bind_var_to_property("sprite", self, "sprite", true)
+	
+	#endregion
+	#region Transitions
+	# All -> One
+	hsm.add_transition(hsm.ANYSTATE, stun_state, &"stun", _is_vincible)
+	# Stun -> Other
+	hsm.add_transition(stun_state, hsm.ANYSTATE, stun_state.EVENT_FINISHED)
+	# Action -> Other
+	hsm.add_transition(hsm.ANYSTATE, action_hsm, &"action", _can_act)
+	# Idle -> Other
+	hsm.add_transition(idle_state, walk_state, &"walk")
+	hsm.add_transition(idle_state, jump_state, &"jump", _can_jump)
+	# Walk -> Other
+	hsm.add_transition(walk_state, idle_state, walk_state.EVENT_FINISHED)
+	hsm.add_transition(walk_state, jump_state, &"jump", _can_jump)
+	hsm.add_transition(walk_state, fall_state, &"fall")
+	# Jump -> Other
+	hsm.add_transition(jump_state, fall_state, jump_state.EVENT_FINISHED)
+	# Fall -> Other
+	hsm.add_transition(fall_state, jump_state, &"jump", _can_jump)
+	hsm.add_transition(fall_state, idle_state, fall_state.EVENT_FINISHED)
+	#endregion
+	
+
+func damage(dmg_amount: int) -> void:
+	current_health -= max(0, dmg_amount)
+	
+	health_changed.emit(current_health)
+	
+	if current_health <= 0:
 		died.emit()
-	else:
-		stun_duration += stun_frames
-		if state_machine.current_state.name.to_lower() != "stun":
-			state_machine.change_state("stun")
 
-func heal(amount: int) -> void:
-	health = max(0, health + amount)
-	health_changed.emit(health, MAX_HEALTH)
+func apply_stun(frames: int) -> void:
+	stun_frames += max(0, frames)
 
-func add_item(slot: int, item: Item) -> int:
-	if inventory.size() >= 3:
-		push_warning("Player already has max number of")
-		return 1
-	
-	inventory.insert(slot, item)
-	inventory_updated.emit(inventory)
-	return 0
-
-func execute_move(move: MoveData) -> void:
-	if not move:
-		return
-		
-	current_move = move
-	action_frame = 0
-	state_machine.change_state("action")
+func heal(heal_amount: int) -> void:
+	current_health += min(max_health, max(0, heal_amount))
 
 func get_input_direction() -> Vector2:
-	if  input.device < -1:
+	if id < 1 and id > 2:
 		return Vector2.ZERO
-	return input.get_vector("left", "right", "up", "down") if input else Vector2.ZERO
+	var dir = Input.get_vector("p%s_left" % id, "p%s_right" % id, "p%s_up" % id, "p%s_down" % id)
+	vel_dir.target_position = dir * 100
+	return dir
 
-func set_money(new_amount: int) -> void:
-	money = clampi(new_amount, -999, 999)
-	money_changed.emit(money)
+func _can_act() -> bool:
+	return hsm.get_active_state() != stun_state or hsm.get_active_state() != action_hsm
 
-func _initialize_systems() -> void:
-	hurtbox.hit.connect(_on_hurt)
+func _can_jump() -> bool:
+	return not jumps_count < max_jumps
 
-func _load_default_items() -> void:
-	inventory.append(load("res://assets/resources/BoxingGloves.tres"))
-	inventory_updated.emit(inventory)
-
-func _handle_input() -> void:
-	if not input or stun_duration > 0 or input.device < -1:
-		return
-	elif state_machine.current_state.name.to_lower() == "action":
-		return
-	
-	if is_on_floor():
-		current_jumps = 0
-	
-	if input.is_action_just_pressed("jump") and current_jumps < max_jumps:
-		state_machine.change_state("jump")
-		current_jumps += 1
-	elif input.is_action_just_pressed("a"):
-		_try_execute_move(0)
-	elif input.is_action_just_pressed("b"):
-		_try_execute_move(1)
-	elif input.is_action_just_pressed("c"):
-		_try_execute_move(2)
-
-func _try_execute_move(item_slot: int) -> void:
-	if inventory.is_empty():
-		push_warning("Player holds no items!")
-		return
-	elif inventory.size() <= item_slot:
-		push_warning("Player doesn't hold an item in that slot.")
-		return
-	var item: Item = inventory.get(item_slot)
-	if not item:
-		return
-		
-	var move_key = _get_move_key()
-	var move = item.variants.get(move_key) as MoveData
-	if move:
-		used_item.emit(item_slot, move.get_total_frames())
-		execute_move(move)
-
-func _get_move_key() -> String:
-	var direction = get_input_direction()
-	var ground_suffix = "_ground" if is_on_floor() else "_air"
-	
-	if direction.y < -0.5:
-		return "up_special" + ground_suffix
-	elif direction.y > 0.5:
-		return "down_special" + ground_suffix
-	elif direction.x < -0.5:
-		return "left_special" + ground_suffix
-	elif direction.x > 0.5:
-		return "right_special" + ground_suffix
-	else:
-		return "neutral" + ground_suffix
-
-func _update_facing() -> void:
-	if stun_duration > 0 or state_machine.current_state.name.to_lower() == "action":
-		return
-	var dir = get_input_direction()
-	if abs(dir.x) > 0.1:
-		facing_right = dir.x < 0
-		sprite.flip_h = not facing_right
-
-func _on_hurt(damage: int, stun: int, knockback: Vector2) -> void:
-	SoundManager.play_sound_with_pitch(HIT_SOUNDS.pick_random(), randf_range(0.8, 1.2))
-	#ScreenEffects.hitstop(6)
-	#ScreenEffects.screenshake(8.0, 0.3)
-	take_damage(damage, stun)
-	velocity = knockback
-	
-	if self_heal_timer:
-		self_heal_timer.start(3)
-
-func _on_heal_timeout() -> void:
-	heal(MAX_HEALTH - health)
+func _is_vincible() -> bool:
+	return i_frames < 1

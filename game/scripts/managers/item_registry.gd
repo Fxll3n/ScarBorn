@@ -11,7 +11,6 @@ var items_by_rarity: Dictionary = {
 const ITEM_PATHS: Array[String] = [
 	"res://assets/resources/BoxingGloves.tres",
 	"res://assets/resources/TestItem.tres",
-	"res://assets/resources/FireballStaff.tres",
 ]
 
 func _ready():

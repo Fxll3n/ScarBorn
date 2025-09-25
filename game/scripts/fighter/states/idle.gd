@@ -1,18 +1,18 @@
-extends FighterState
+extends LimboState
 
-func enter():
-	fighter.sprite.play("idle")
+func _enter():
+	agent.jumps_count = 0
+	agent.sprite.play("idle")
 
-func update(delta: float):
-	var direction = fighter.get_input_direction()
+func _update(delta: float) -> void:
+	var direction = agent.get_input_direction()
 	
-	if abs(direction.x) > 0.1:
-		fighter.state_machine.change_state("walk")
-	elif not fighter.is_on_floor():
-		fighter.state_machine.change_state("fall")
-
-func physics_update(delta: float):
-	if fighter.is_on_floor():
-		fighter.velocity.x = move_toward(fighter.velocity.x, 0, Fighter.FRICTION * delta)
+	if direction.x != 0:
+		dispatch("walk")
+	elif Input.is_action_just_pressed("p%s_jump" % agent.id):
+		dispatch(&"jump")
+		
+	if agent.is_on_floor():
+		agent.velocity.x = move_toward(agent.velocity.x, 0, agent.friction * delta)
 	else:
-		fighter.velocity.y += Fighter.GRAVITY * delta
+		agent.velocity.y += agent.gravity * delta
