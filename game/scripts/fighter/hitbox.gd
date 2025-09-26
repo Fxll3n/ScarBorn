@@ -15,7 +15,7 @@ func _draw() -> void:
 	
 	var shape_size = collision_shape.shape.size
 	var shape_position = collision_shape.position - shape_size / 2
-	draw_rect(Rect2(shape_position, shape_size), Color(1, 0, 0, 0.41), true)
+	draw_rect(Rect2(shape_position, shape_size), Color(1, 0, 0, 0.41) if enabled else Color(0, 0, 0, 0.41), true)
 
 func setup(pos: Vector2, size: Vector2):
 	position = pos

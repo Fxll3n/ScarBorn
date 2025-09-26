@@ -35,7 +35,7 @@ func _reroll() -> void:
 	if not fighter or fighter.money < reroll_cost:
 		return
 	
-	fighter.set_money(fighter.money - reroll_cost)
+	fighter.decrease_money(reroll_cost)
 	current_item = ItemRegistry.get_random_item()
 	reroll_cost = int(reroll_cost * 1.5)
 	buy_cost = current_item.buy_price
@@ -45,8 +45,7 @@ func _buy() -> void:
 	if not fighter or fighter.money < buy_cost:
 		return
 	
-	fighter.set_money(fighter.money - buy_cost)
-	fighter.add_item(0, current_item)
-	fighter.money -= buy_cost
+	fighter.decrease_money(buy_cost)
+	fighter.add_item(current_item)
 	update_visuals()
 	queue_free()

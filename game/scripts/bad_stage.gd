@@ -68,8 +68,8 @@ func setup_fighter_process_modes() -> void:
 	fighter2.process_mode = Node.PROCESS_MODE_PAUSABLE
 
 func heal_fighters_full() -> void:
-	fighter1.heal(fighter1.MAX_HEALTH - fighter1.health)
-	fighter2.heal(fighter2.MAX_HEALTH - fighter2.health)
+	fighter1.heal(999)
+	fighter2.heal(999)
 
 func start_countdown() -> void:
 	countdown_started.emit()
@@ -138,16 +138,14 @@ func _on_fighter_died(dead_fighter: Fighter) -> void:
 	dead_fighter.lose_streak += 1
 	alive_fighter.lose_streak = 0
 	
-	dead_fighter.set_money(dead_fighter.money + (dead_fighter.lose_streak * 2 + 5))
-	alive_fighter.set_money(alive_fighter.money + (10 + alive_fighter.money * .1))
-	var dead_id: int = dead_fighter.player_id
-	var alive_id: int = alive_fighter.player_id
+	dead_fighter.increase_money(dead_fighter.lose_streak * 2 + 5)
+	alive_fighter.increase_money(10 + alive_fighter.money * .1)
 	
-	dead_fighter.set_player_id(-2)
-	alive_fighter.set_player_id(-2)
+	dead_fighter.paused = true
+	alive_fighter.paused = true
 	await get_tree().create_timer(5).timeout
-	dead_fighter.set_player_id(dead_id)
-	alive_fighter.set_player_id(alive_id)
+	dead_fighter.paused = false
+	alive_fighter.paused = false
 	stop_fight()
 	set_phase(PHASES.SHOP)
 
@@ -157,8 +155,8 @@ func _on_fighter_ready() -> void:
 	round_timer.paused = false
 	fighter1.is_ready = false
 	fighter2.is_ready = false
-	fighter1.state_machine.change_state("idle")
-	fighter2.state_machine.change_state("idle")
+	fighter1.hsm.change_active_state(fighter1.idle_state)
+	fighter2.hsm.change_active_state(fighter2.idle_state)
 	fighter1.velocity = Vector2.ZERO
 	fighter2.velocity = Vector2.ZERO
 	heal_fighters_full()

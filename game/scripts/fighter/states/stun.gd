@@ -3,19 +3,18 @@ extends LimboState
 func _enter() -> void:
 	agent.hitbox.disable()
 	agent.hitbox.setup(Vector2.ZERO, Vector2.ZERO)
-	agent.action_frame = 0
 	agent.sprite.play("stun")
 
 func _update(delta: float) -> void:
-	if agent.action_frame >= agent.stun_duration:
-		get_root().dispatch(EVENT_FINISHED)
+	if agent.stun_frames > 0:
+		print(agent.stun_frames)
+		agent.stun_frames -= 1
 	else:
-		agent.action_frame += 1
+		get_root().dispatch(EVENT_FINISHED)
 	
 	if not agent.is_on_floor():
 		agent.velocity.y = move_toward(agent.velocity.y, agent.gravity, agent.gravity * delta)
 	agent.velocity.x = move_toward(agent.velocity.x, 0, agent.friction * delta)
 
 func _exit() -> void:
-	agent.action_frame = 0
-	agent.stun_duration = 0
+	agent.stun_frames = 0

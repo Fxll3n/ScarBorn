@@ -3,8 +3,9 @@ extends CharacterBody2D
 
 signal died
 signal health_changed(new_health: int)
-signal money_changed(old_amount: int, new_amount: int)
+signal money_changed(new_amount: int)
 signal inventory_changed(new_inventory: Array[Item])
+signal used_item(slot: int, cooldown: float)
 
 const HIT_SOUNDS = [
 	preload("res://assets/audio/2AH.wav"),
@@ -36,7 +37,11 @@ const HIT_SOUNDS = [
 @onready var walk_state: LimboState = $LimboHSM/Walk
 @onready var jump_state: LimboState = $LimboHSM/Jump
 @onready var fall_state: LimboState = $LimboHSM/Fall
+
 @onready var action_hsm: LimboHSM = $LimboHSM/Action
+@onready var startup_phase: LimboState = $LimboHSM/Action/Startup
+@onready var active_phase: LimboState = $LimboHSM/Action/Active
+@onready var recovery_phase: LimboState = $LimboHSM/Action/Recovery
 
 @onready var gravity: float = ProjectSettings.get_setting("physics/2d/default_gravity")
 
@@ -51,11 +56,16 @@ var i_frames: int = 0
 var stun_frames: int = 0
 var lose_streak: int = 0
 var win_streak: int = 0
+var paused: bool = false
+var is_ready: bool = false
+var facing_right: bool = true
 
 func _ready() -> void:
 	_initilize_hsm()
+	_connect_signals()
 
 func _process(delta: float) -> void:
+	_update_facing()
 	if hsm.get_active_state() == null:
 		return
 	state_label.text = hsm.get_active_state().name
@@ -63,26 +73,157 @@ func _process(delta: float) -> void:
 func _physics_process(delta: float) -> void:
 	move_and_slide()
 
+func _unhandled_key_input(event: InputEvent) -> void:
+	if event.is_action_pressed("p%s_a" % id):
+		print("p%s_a" % id)
+		use_move(0)
+	elif event.is_action_pressed("p%s_b" % id):
+		use_move(1)
+	elif event.is_action_pressed("p%s_c" % id):
+		use_move(2)
+
+func damage(dmg_amount: int) -> void:
+	current_health -= dmg_amount
+	current_health = clampi(current_health, 0, max_health)
+	
+	health_changed.emit(current_health)
+	
+	if current_health <= 0:
+		died.emit()
+
+func apply_stun(frames: int) -> void:
+	stun_frames += max(0, frames)
+	hsm.change_active_state(stun_state)
+
+func apply_knockback(knockback_direction: Vector2) -> void:
+	velocity = knockback_direction
+
+func heal(heal_amount: int) -> void:
+	current_health += heal_amount
+	current_health = clampi(current_health, 0, max_health)
+	
+	health_changed.emit(current_health)
+
+func increase_money(amount: int) -> void:
+	money += amount
+	money = clampi(money, 0, 999)
+	money_changed.emit(money)
+
+func decrease_money(amount: int) -> void:
+	money -= amount
+	money = clampi(money, 0, 999)
+	money_changed.emit(money)
+
+func get_input_direction() -> Vector2:
+	if id < 1 or id > 2 or paused:
+		return Vector2.ZERO
+	var dir = Input.get_vector("p%s_left" % id, "p%s_right" % id, "p%s_up" % id, "p%s_down" % id)
+	vel_dir.target_position = dir * 100
+	return dir
+
+func use_move(item_id: int) -> MoveData:
+	if inventory.is_empty():
+		print("[Fighter:%s] Inventory is empty." % [id])
+		return null
+	
+	if inventory.size() <= item_id:
+		print("[Fighter:%s] Inventory doesn't contain an index of `%s`" % [id, item_id])
+		return
+	
+	var item: Item = inventory.get(item_id)
+	
+	if item == null:
+		print("[Fighter%s] No Item resource at id `%s`" % [id, item_id])
+		return null
+	
+	var code: String = _get_move_code()
+	var move: MoveData = item.variants.get(code) as MoveData
+	
+	if move == null:
+		print("[Fighter%s] No MoveData found for key `%s`" % [id, code])
+		return null
+	
+	current_move = move
+	hsm.change_active_state(action_hsm)
+	
+	action_hsm.blackboard.set_var(&"move", move)
+	
+	action_hsm.blackboard.set_var(&"startup_frames", move.startup)
+	action_hsm.blackboard.set_var(&"active_frames", move.active)
+	action_hsm.blackboard.set_var(&"recovery_frames", move.recovery)
+	action_hsm.blackboard.set_var(&"hitbox_rect", move.hitbox_data)
+	action_hsm.blackboard.set_var(&"damage", move.damage)
+	action_hsm.blackboard.set_var(&"stun", move.stun)
+	action_hsm.blackboard.set_var(&"knockback", move.knockback_direction)
+	action_hsm.blackboard.set_var(&"animation", move.animation_name)
+	
+	used_item.emit(item_id, int(move.get_total_frames()/60.0))
+	return move
+
+func add_item(item: Item) -> void:
+	if item == null:
+		print("[Fighter%s] Cannot add item to inventory, item was null." % id)
+		return
+	
+	inventory.insert(0, item)
+	inventory_changed.emit(inventory)
+
+func remove_item(item_id: int = 0) -> void:
+	if inventory.is_empty():
+		print("[Fighter%s] Inventory is empty." % id)
+		return
+	
+	if inventory.size() <= item_id:
+		print("[Fighter%s] Inventory does not contain index of `%s`" % [id, item_id])
+		return
+	
+	inventory.remove_at(item_id)
+	inventory_changed.emit(inventory)
+
+func _get_move_code() -> String:
+	var direction = get_input_direction()
+	var ground_suffix = "_ground" if is_on_floor() else "_air"
+	
+	if direction.y < -0.5:
+		return "up_special" + ground_suffix
+	elif direction.y > 0.5:
+		return "down_special" + ground_suffix
+	elif direction.x < -0.5:
+		return "left_special" + ground_suffix
+	elif direction.x > 0.5:
+		return "right_special" + ground_suffix
+	else:
+		return "neutral" + ground_suffix
+
+func _can_act() -> bool:
+	return hsm.get_active_state() != stun_state or hsm.get_active_state() != action_hsm
+
+func _can_jump() -> bool:
+	return not jumps_count < max_jumps
+
+func _update_facing() -> void:
+	if stun_frames > 0 or hsm.get_active_state() == action_hsm:
+		return
+	var dir = get_input_direction()
+	if abs(dir.x) > 0.1:
+		facing_right = dir.x < 0
+		sprite.flip_h = not facing_right
+
+func _is_vincible() -> bool:
+	return i_frames < 1
+
 func _initilize_hsm() -> void:
 	#region Setup
 	hsm.initialize(self)
 	hsm.set_active(true)
 	hsm.change_active_state(idle_state)
-	
-	hsm.blackboard.bind_var_to_property("current_move", self, "current_move", true)
-	hsm.blackboard.bind_var_to_property("inventory", self, "inventory", true)
-	hsm.blackboard.bind_var_to_property("hitbox", self, "hitbox", true)
-	hsm.blackboard.bind_var_to_property("hurtbox", self, "hurtbox", true)
-	hsm.blackboard.bind_var_to_property("sprite", self, "sprite", true)
-	
 	#endregion
 	#region Transitions
 	# All -> One
+	hsm.add_transition(hsm.ANYSTATE, action_hsm, &"action", _can_act)
 	hsm.add_transition(hsm.ANYSTATE, stun_state, &"stun", _is_vincible)
 	# Stun -> Other
-	hsm.add_transition(stun_state, hsm.ANYSTATE, stun_state.EVENT_FINISHED)
-	# Action -> Other
-	hsm.add_transition(hsm.ANYSTATE, action_hsm, &"action", _can_act)
+	hsm.add_transition(stun_state, idle_state, stun_state.EVENT_FINISHED)
 	# Idle -> Other
 	hsm.add_transition(idle_state, walk_state, &"walk")
 	hsm.add_transition(idle_state, jump_state, &"jump", _can_jump)
@@ -95,35 +236,19 @@ func _initilize_hsm() -> void:
 	# Fall -> Other
 	hsm.add_transition(fall_state, jump_state, &"jump", _can_jump)
 	hsm.add_transition(fall_state, idle_state, fall_state.EVENT_FINISHED)
+	# Action Phases
+	action_hsm.add_transition(startup_phase, active_phase, startup_phase.EVENT_FINISHED)
+	action_hsm.add_transition(active_phase, recovery_phase, active_phase.EVENT_FINISHED)
+	hsm.add_transition(action_hsm, idle_state, action_hsm.EVENT_FINISHED)
+	
 	#endregion
-	
 
-func damage(dmg_amount: int) -> void:
-	current_health -= max(0, dmg_amount)
-	
-	health_changed.emit(current_health)
-	
-	if current_health <= 0:
-		died.emit()
-
-func apply_stun(frames: int) -> void:
-	stun_frames += max(0, frames)
-
-func heal(heal_amount: int) -> void:
-	current_health += min(max_health, max(0, heal_amount))
-
-func get_input_direction() -> Vector2:
-	if id < 1 and id > 2:
-		return Vector2.ZERO
-	var dir = Input.get_vector("p%s_left" % id, "p%s_right" % id, "p%s_up" % id, "p%s_down" % id)
-	vel_dir.target_position = dir * 100
-	return dir
-
-func _can_act() -> bool:
-	return hsm.get_active_state() != stun_state or hsm.get_active_state() != action_hsm
-
-func _can_jump() -> bool:
-	return not jumps_count < max_jumps
-
-func _is_vincible() -> bool:
-	return i_frames < 1
+func _connect_signals() -> void:
+	#region Signal Connections
+	hurtbox.hit.connect(_on_hurt)
+	#endregion
+	inventory_changed.emit(inventory)
+func _on_hurt(dmg_amount: int, stun_amount: int, knockback: Vector2):
+	damage(dmg_amount)
+	apply_stun(stun_amount)
+	apply_knockback(knockback)

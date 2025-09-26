@@ -12,7 +12,6 @@
 [ext_resource type="Script" uid="uid://mwj0wy8qp7jn" path="res://scripts/fighter/states/walk.gd" id="10_nmlhc"]
 [ext_resource type="Script" uid="uid://dkhthe16lrdpg" path="res://scripts/fighter/states/jump.gd" id="11_h5w3c"]
 [ext_resource type="Script" uid="uid://bxyflkpkocsbv" path="res://scripts/fighter/states/fall.gd" id="12_0878f"]
-[ext_resource type="Script" uid="uid://be5r5nxja8b3r" path="res://scripts/action.gd" id="13_ypltb"]
 [ext_resource type="Script" uid="uid://ci8scs0q0h0dk" path="res://scripts/startup.gd" id="14_0878f"]
 [ext_resource type="Script" uid="uid://c6drqtmmyx4pt" path="res://scripts/active.gd" id="15_dferu"]
 [ext_resource type="Script" uid="uid://b678c03j4kx52" path="res://scripts/recovery.gd" id="16_t62v4"]
@@ -281,6 +280,12 @@ height = 92.0
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ktjr4"]
 size = Vector2(37, 96)
 
+[sub_resource type="BlackboardPlan" id="BlackboardPlan_h5w3c"]
+var/move/name = &"move"
+var/move/type = 24
+var/move/hint = 17
+var/move/hint_string = "MoveData"
+
 [node name="Fighter" type="CharacterBody2D" groups=["players"]]
 z_index = 10
 script = ExtResource("1_7wueq")
@@ -347,7 +352,7 @@ script = ExtResource("11_h5w3c")
 script = ExtResource("12_0878f")
 
 [node name="Action" type="LimboHSM" parent="LimboHSM"]
-script = ExtResource("13_ypltb")
+blackboard_plan = SubResource("BlackboardPlan_h5w3c")
 
 [node name="Startup" type="LimboState" parent="LimboHSM/Action"]
 script = ExtResource("14_0878f")

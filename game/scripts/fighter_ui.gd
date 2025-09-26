@@ -14,7 +14,7 @@ func _ready() -> void:
 		print("Error: Fighter is null!")
 		return
 		
-	fighter.health_changed.connect(_on_health_changed)
+	fighter.health_changed.connect(_on_health_changed.bind(fighter.max_health))
 	fighter.inventory_changed.connect(_on_inventory_changed)
 	fighter_name.text = fighter.name
 
