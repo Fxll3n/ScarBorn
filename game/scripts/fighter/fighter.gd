@@ -59,6 +59,7 @@ var win_streak: int = 0
 var paused: bool = false
 var is_ready: bool = false
 var facing_right: bool = true
+var gravity_on: bool = true
 
 func _ready() -> void:
 	_initilize_hsm()
@@ -71,6 +72,13 @@ func _process(delta: float) -> void:
 	state_label.text = hsm.get_active_state().name
 
 func _physics_process(delta: float) -> void:
+	if not gravity_on:
+		move_and_slide()
+		return
+	
+	if not is_on_floor():
+		velocity.y = move_toward(velocity.y, gravity, gravity * delta)
+	
 	move_and_slide()
 
 func _unhandled_key_input(event: InputEvent) -> void:
@@ -146,17 +154,6 @@ func use_move(item_id: int) -> MoveData:
 	current_move = move
 	hsm.change_active_state(action_hsm)
 	
-	action_hsm.blackboard.set_var(&"move", move)
-	
-	action_hsm.blackboard.set_var(&"startup_frames", move.startup)
-	action_hsm.blackboard.set_var(&"active_frames", move.active)
-	action_hsm.blackboard.set_var(&"recovery_frames", move.recovery)
-	action_hsm.blackboard.set_var(&"hitbox_rect", move.hitbox_data)
-	action_hsm.blackboard.set_var(&"damage", move.damage)
-	action_hsm.blackboard.set_var(&"stun", move.stun)
-	action_hsm.blackboard.set_var(&"knockback", move.knockback_direction)
-	action_hsm.blackboard.set_var(&"animation", move.animation_name)
-	
 	used_item.emit(item_id, int(move.get_total_frames()/60.0))
 	return move
 
@@ -217,6 +214,10 @@ func _initilize_hsm() -> void:
 	hsm.initialize(self)
 	hsm.set_active(true)
 	hsm.change_active_state(idle_state)
+	
+	hsm.blackboard.bind_var_to_property("move_data", self, "current_move", true)
+	action_hsm.blackboard.link_var("move_data", hsm.blackboard, "move_data", true)
+	
 	#endregion
 	#region Transitions
 	# All -> One

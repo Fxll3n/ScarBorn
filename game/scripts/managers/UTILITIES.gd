@@ -72,14 +72,14 @@ func setup_console() -> void:
 		"Sets the game speed."
 	)
 
-func add_item(item: String, slot: int = 0,fighter: String = "Fighter") -> void:
+func add_item(item: String, fighter: String = "Fighter") -> void:
 	var fighter_node: Fighter = find_node_by_name(fighter, "players") as Fighter
 	
 	if not fighter_node:
 		print("Player '%s' not found" % fighter)
 		return
 	
-	if slot >= fighter_node.inventory.size() or fighter_node.inventory.size() >= 3:
+	if fighter_node.inventory.size() >= 3:
 		return
 	
 	var item_path = "res://assets/resources/" + item + ".tres"
@@ -93,6 +93,7 @@ func add_item(item: String, slot: int = 0,fighter: String = "Fighter") -> void:
 		return
 	
 	fighter_node.add_item(item_resource)
+	fighter_node.inventory_changed.emit(fighter_node.inventory)
 	LimboConsole.print_line("Added '%s' to %s's inventory" % [item_resource.name, fighter])
 
 func damage_fighter(fighter: String, amount: int, stun_frames: int) -> void:

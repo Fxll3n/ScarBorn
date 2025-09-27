@@ -12,9 +12,9 @@
 [ext_resource type="Script" uid="uid://mwj0wy8qp7jn" path="res://scripts/fighter/states/walk.gd" id="10_nmlhc"]
 [ext_resource type="Script" uid="uid://dkhthe16lrdpg" path="res://scripts/fighter/states/jump.gd" id="11_h5w3c"]
 [ext_resource type="Script" uid="uid://bxyflkpkocsbv" path="res://scripts/fighter/states/fall.gd" id="12_0878f"]
-[ext_resource type="Script" uid="uid://ci8scs0q0h0dk" path="res://scripts/startup.gd" id="14_0878f"]
-[ext_resource type="Script" uid="uid://c6drqtmmyx4pt" path="res://scripts/active.gd" id="15_dferu"]
-[ext_resource type="Script" uid="uid://b678c03j4kx52" path="res://scripts/recovery.gd" id="16_t62v4"]
+[ext_resource type="Script" uid="uid://ci8scs0q0h0dk" path="res://scripts/fighter/states/startup.gd" id="14_0878f"]
+[ext_resource type="Script" uid="uid://c6drqtmmyx4pt" path="res://scripts/fighter/states/active.gd" id="15_dferu"]
+[ext_resource type="Script" uid="uid://b678c03j4kx52" path="res://scripts/fighter/states/recovery.gd" id="16_t62v4"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_nmlhc"]
 shader = ExtResource("3_ypltb")

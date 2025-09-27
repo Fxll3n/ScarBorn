@@ -3,6 +3,7 @@ extends LimboState
 var direction: Vector2 = Vector2.ZERO
 
 func _enter() -> void:
+	agent.gravity_on = true
 	SoundManager.play_sound(preload("res://assets/audio/3CH.wav"))
 	agent.velocity.y = agent.jump_velocity
 	agent.jumps_count += 1
@@ -20,5 +21,3 @@ func _update(delta: float) -> void:
 		agent.velocity.x = move_toward(agent.velocity.x, agent.walk_speed * direction.x, agent.walk_speed * delta)
 	else:
 		agent.velocity.x = move_toward(agent.velocity.x, 0, agent.walk_speed * delta)
-	
-	agent.velocity.y = move_toward(agent.velocity.y, agent.gravity, agent.gravity * delta)

@@ -3,6 +3,7 @@ extends LimboState
 @onready var direction: Vector2 = Vector2.ZERO
 
 func _enter() -> void:
+	agent.gravity_on = true
 	direction = agent.get_input_direction()
 	agent.sprite.play("fall")
 
@@ -16,5 +17,3 @@ func _update(delta: float) -> void:
 		agent.velocity.x = move_toward(agent.velocity.x, agent.walk_speed * direction.x, agent.walk_speed * delta)
 	else:
 		agent.velocity.x = move_toward(agent.velocity.x, 0, agent.walk_speed * delta)
-	
-	agent.velocity.y = move_toward(agent.velocity.y, agent.gravity, agent.gravity * delta)
